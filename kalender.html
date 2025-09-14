@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalendarz pracy Mariusza</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* ...pozostałe style... */
+    @media (max-width: 600px) {
+      .system-switch {
+        margin-top: 24px !important;
+      }
+      body {
+        margin-top: 18px !important;
+      }
+      html, body {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100vw !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        background: #f0f0f0 !important;
+        overflow-x: hidden !important;
+      }
+      .calendar {
+        padding: 0 !important;
+        max-width: calc(100vw - 24px) !important;
+        min-width: 0 !important;
+        width: calc(100vw - 24px) !important;
+        margin: 0 12px !important;
+      }
+      .legend {
+        margin-top: 10px !important;
+        padding: 10px 0 10px 0 !important;
+        font-size: 18px !important;
+        max-width: calc(100vw - 24px) !important;
+        width: calc(100vw - 24px) !important;
+        text-align: center !important;
+        margin-left: 12px !important;
+        margin-right: 12px !important;
+      }
+      .header h2 {
+        font-size: 22px !important;
+      }
+      .dot {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 22px !important;
+      }
+      .flags button {
+        font-size: 34px !important;
+      }
+      table {
+        font-size: 18px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        table-layout: fixed !important;
+        margin: 0 !important;
+        border-spacing: 0 !important;
+      }
+      th, td {
+        padding: 8px 0 8px 0 !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+      td {
+        height: 60px !important;
+        min-width: 0 !important;
+        font-size: 18px !important;
+        position: relative !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+      .day-number {
+        top: 6px !important;
+        right: 8px !important;
+        font-size: 18px !important;
+      }
+      .legend-item {
+        font-size: 18px !important;
+        justify-content: center !important;
+      }
+      .color-box {
+        width: 22px !important;
+        height: 22px !important;
+      }
+    }
+    .calendar {
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px 0 rgba(0,0,0,0.10), 0 1.5px 4px 0 rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 600px;
+  transition: box-shadow 0.2s, border-radius 0.2s;
+    }
+    .system-switch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      color: white;
+    }
+    .dot.yellow.active { background-color: #fdd835; }
+    .dot.yellow.inactive { background-color: #fff9c4; }
+    .dot.green.active { background-color: #43a047; }
+    .dot.green.inactive { background-color: #c8e6c9; }
+    .dot.blue.active { background-color: #2196f3; }
+    .dot.blue.inactive { background-color: #bbdefb; }
+    .dot.red.active { background-color: #f44336; }
+    .dot.red.inactive { background-color: #ef9a9a; }
+    .flags {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .flags button {
+      font-size: 24px;
+      margin: 0 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .header button {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .header h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th {
+      background: #4caf50;
+      color: white;
+      padding: 10px;
+    }
+    td {
+      width: 14.28%;
+      height: 80px;
+      vertical-align: top;
+      border: 1px solid #ddd;
+      padding: 5px;
+      position: relative;
+    }
+    .today {
+  border: 2px solid #4caf50;
+  border-radius: 10px;
+    }
+    .day-number {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-weight: bold;
+    }
+    .legend {
+  margin-top: 20px;
+  font-size: 14px;
+  background: white;
+  padding: 14px 10px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10), 0 1px 2px 0 rgba(0,0,0,0.08);
+  max-width: 600px;
+  width: 100%;
+  transition: box-shadow 0.2s, border-radius 0.2s;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    </style>
+
+  <body>
+    <div class="calendar">
+      <div class="system-switch">
+        <button id="dotA" class="dot blue inactive" onclick="setShiftSystem('A')">A</button>
+        <button id="dotB" class="dot red inactive" onclick="setShiftSystem('B')">B</button>
+        <button id="dotC" class="dot green inactive" onclick="setShiftSystem('alt')">C</button>
+        <button id="dotD" class="dot yellow active" onclick="setShiftSystem('default')">D</button>
+      </div>
+      <div class="header">
+        <button onclick="changeMonth(-1)">←</button>
+        <h2 id="monthYear"></h2>
+        <button onclick="changeMonth(1)">→</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Pn</th><th>Wt</th><th>Śr</th><th>Cz</th><th>Pt</th><th>Sb</th><th>Nd</th>
+          </tr>
+        </thead>
+        <tbody id="calendarBody"></tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="color-box" style="background:#bbdefb;"></div> Rano ☀️</div>
+      <div class="legend-item"><div class="color-box" style="background:#c8e6c9;"></div> Południe 🌤️</div>
+      <div class="legend-item"><div class="color-box" style="background:#ffcdd2;"></div> Nocka 🌙</div>
+      <div class="legend-item"><div class="color-box" style="background:#ffe0b2;"></div> Święto 🎉</div>
+    </div>
+
+  <script>
+    const monthYear = document.getElementById("monthYear");
+    const calendarBody = document.getElementById("calendarBody");
+    let currentDate = new Date();
+    let currentLang = "pl";
+    let shiftSystem = "default";
+
+    const systemCycles = {
+      default: {
+        start: new Date(Date.UTC(2025, 0, 3)),
+        cycle:
+["Rano","Rano","Rano","Rano","Rano","Wolne","Wolne","Nocka","Nocka","Nocka","Nocka","Nocka","Wolne","Wolne","Południe","Południe","Południe","Południe","Południe","Wolne"]
+      },
+      alt: {
+        start: new Date(Date.UTC(2025, 0, 2)),
+        cycle:
+["Południe","Południe","Południe","Południe","Południe","Wolne","Rano","Rano","Rano","Rano","Rano","Wolne","Wolne","Nocka","Nocka","Nocka","Nocka","Nocka","Wolne","Wolne"]
+      },
+      A: {
+        start: new Date(Date.UTC(2025, 0, 5)),
+        cycle:
+["Nocka","Nocka","Nocka","Nocka","Nocka","Wolne","Wolne","Południe","Południe","Południe","Południe","Południe","Wolne","Rano","Rano","Rano","Rano","Rano","Wolne","Wolne"]
+      },
+      B: {
+        start: new Date(Date.UTC(2025, 0, 7)),
+        cycle:
+["Południe","Południe","Południe","Południe","Południe","Wolne","Rano","Rano","Rano","Rano","Rano","Wolne","Wolne","Nocka","Nocka","Nocka","Nocka","Nocka","Wolne","Wolne"]
+      }
+    };
+
+    const translations = {
+      pl: {
+        days: ["Pn", "Wt", "Śr",
+"Cz", "Pt", "Sb", "Nd"],
+        locale: "pl-PL",
+        legend: {
+          morning: "Rano ☀️",
+          afternoon: "Południe 🌤️",
+          night: "Nocka 🌙",
+          holiday: "Święto 🎉"
+        }
+      },
+      ru: {
+        days: ["Пн", "Вт", "Ср",
+"Чт", "Пт", "Сб", "Вс"],
+        locale: "ru-RU",
+        legend: {
+          morning: "Утро ☀️",
+          afternoon: "День 🌤️",
+          night: "Ночь 🌙",
+          holiday: "Праздник 🎉"
+        }
+      },
+      de: {
+        days: ["Mo", "Di", "Mi",
+"Do", "Fr", "Sa", "So"],
+        locale: "de-DE",
+        legend: {
+          morning: "Morgen ☀️",
+          afternoon: "Nachmittag 🌤️",
+          night: "Nacht 🌙",
+          holiday: "Feiertag 🎉"
+        }
+      }
+    };
+
+    function getEasterDate(year) {
+      const f = Math.floor,
+            G = year % 19,
+            C = f(year / 100),
+            H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30,
+            I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11)),
+            J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7,
+            L = I - J,
+            month = 3 + f((L + 40) / 44),
+            day = L + 28 - 31 * f(month / 4);
+      return new Date(year, month - 1, day);
+    }
+
+    function formatDate(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function getHolidaysNRW(year) {
+      const holidays = [
+        `${year}-01-01`, `${year}-05-01`, `${year}-10-03`,
+        `${year}-11-01`, `${year}-12-25`, `${year}-12-26`
+      ];
+      const easter = getEasterDate(year);
+      const offsets = [-2, 1, 39, 49, 50, 60];
+      offsets.forEach(offset => {
+        const d = new Date(easter);
+        d.setDate(easter.getDate() + offset);
+        holidays.push(formatDate(d));
+      });
+      return holidays;
+    }
+
+    function getShiftType(date) {
+      const system = systemCycles[shiftSystem];
+      const currentUTC = Date.UTC(date.getFullYear(), date.getMonth(),
+date.getDate());
+      const dayDiff = Math.floor((currentUTC - system.start.getTime()) /
+(1000 * 60 * 60 * 24));
+      const index = ((dayDiff % system.cycle.length) + system.cycle.length)
+% system.cycle.length;
+      return system.cycle[index];
+    }
+
+    function renderCalendar(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const today = new Date();
+      const holidaysNRW = getHolidaysNRW(year);
+
+      monthYear.textContent =
+date.toLocaleString(translations[currentLang].locale, {
+        month: "long",
+        year: "numeric"
+      });
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const startOffset = (firstDay === 0) ? 6 : firstDay - 1;
+
+      calendarBody.innerHTML = "";
+
+      const headers = document.querySelectorAll("thead th");
+      translations[currentLang].days.forEach((day, i) => {
+        headers[i].textContent = day;
+      });
+
+      let row = document.createElement("tr");
+      for (let i = 0; i < startOffset; i++) {
+        row.appendChild(document.createElement("td"));
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement("td");
+        const isToday = day === today.getDate() &&
+                        month === today.getMonth() &&
+                        year === today.getFullYear();
+
+        if (isToday) cell.classList.add("today");
+
+        const number = document.createElement("div");
+        number.className = "day-number";
+        number.textContent = day;
+        cell.appendChild(number);
+
+        const shiftType = getShiftType(new Date(year, month, day));
+        const dateStr = formatDate(new Date(year, month, day));
+
+        if (holidaysNRW.includes(dateStr)) {
+          cell.style.backgroundColor = "#ffe0b2";
+          cell.title = translations[currentLang].legend.holiday;
+        } else {
+          if (shiftType === "Rano") {
+            cell.style.backgroundColor = "#bbdefb";
+            cell.title = translations[currentLang].legend.morning;
+          } else if (shiftType === "Południe") {
+            cell.style.backgroundColor = "#c8e6c9";
+            cell.title = translations[currentLang].legend.afternoon;
+          } else if (shiftType === "Nocka") {
+            cell.style.backgroundColor = "#ffcdd2";
+            cell.title = translations[currentLang].legend.night;
+          }
+        }
+
+        row.appendChild(cell);
+
+        if ((startOffset + day) % 7 === 0 || day === daysInMonth) {
+          calendarBody.appendChild(row);
+          row = document.createElement("tr");
+        }
+      }
+
+      if (row.children.length > 0) {
+        calendarBody.appendChild(row);
+      }
+    }
+
+    function changeMonth(offset) {
+      currentDate.setMonth(currentDate.getMonth() + offset);
+      renderCalendar(currentDate);
+    }
+
+    function setShiftSystem(system) {
+      shiftSystem = system;
+
+      const dots = {
+        default: document.getElementById("dotD"),
+        alt: document.getElementById("dotC"),
+        A: document.getElementById("dotA"),
+        B: document.getElementById("dotB")
+      };
+
+      for (const key in dots) {
+        dots[key].classList.remove("active",
+"inactive");
+        dots[key].classList.add(key === system ? "active" :
+"inactive");
+      }
+
+      renderCalendar(currentDate);
+      updateLegend();
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      renderCalendar(currentDate);
+      updateLegend();
+    }
+
+    function updateLegend() {
+      const legendItems =
+document.querySelectorAll(".legend-item");
+      const legendTexts = translations[currentLang].legend;
+
+      legendItems[0].lastChild.textContent = legendTexts.morning;
+      legendItems[1].lastChild.textContent = legendTexts.afternoon;
+      legendItems[2].lastChild.textContent = legendTexts.night;
+      legendItems[3].lastChild.textContent = legendTexts.holiday;
+    }
+
+    // Inicjalizacja
+    renderCalendar(currentDate);
+    updateLegend();
+  </script>
+</body>
+</html>
