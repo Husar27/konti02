@@ -205,17 +205,15 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
     };
 
     function changeLanguage() {
-      const lang = document.getElementById("language").value;
-      const t = translations[lang];
-
-      document.getElementById("titleText").textContent = t.title;
-      document.getElementById("nick").placeholder = t.nick;
-      document.getElementById("password").placeholder =
-t.password;
-      document.getElementById("registerBtn").textContent =
-t.register;
-      document.getElementById("loginBtn").textContent = t.login;
-      document.querySelector(".btn-guest").textContent = t.guest;
+  const lang = document.getElementById("language").value;
+  localStorage.setItem("selectedLanguage", lang);
+  const t = translations[lang];
+  document.getElementById("titleText").textContent = t.title;
+  document.getElementById("nick").placeholder = t.nick;
+  document.getElementById("password").placeholder = t.password;
+  document.getElementById("registerBtn").textContent = t.register;
+  document.getElementById("loginBtn").textContent = t.login;
+  document.querySelector(".btn-guest").textContent = t.guest;
     }
 
     function togglePassword() {
@@ -233,8 +231,9 @@ t.register;
     }
 
     window.onload = () => {
-      document.getElementById("language").value = "de";
-      changeLanguage();
+  const savedLang = localStorage.getItem("selectedLanguage") || "de";
+  document.getElementById("language").value = savedLang;
+  changeLanguage();
     };
 
     function register() {

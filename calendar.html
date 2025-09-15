@@ -237,7 +237,7 @@
     const monthYear = document.getElementById("monthYear");
     const calendarBody = document.getElementById("calendarBody");
     let currentDate = new Date();
-    let currentLang = "pl";
+  let currentLang = localStorage.getItem("selectedLanguage") || "pl";
     let shiftSystem = "default";
 
     const systemCycles = {
