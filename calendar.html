@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kalendarz pracy Mariusza</title>
   <style>
+    .color-box {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      margin-right: 8px;
+      display: inline-block;
+      border: 1.5px solid #bbb;
+    }
+    .color-box.rano {
+      background: #bbdefb;
+    }
+    .color-box.poludnie {
+      background: #c8e6c9;
+    }
+    .color-box.nocka {
+      background: #ffcdd2;
+    }
+    .color-box.swieto {
+      background: #ffe0b2;
+    }
     body {
       font-family: Arial, sans-serif;
       background: #f0f0f0;
@@ -91,10 +111,9 @@
         font-size: 18px !important;
         max-width: calc(100vw - 24px) !important;
         width: calc(100vw - 24px) !important;
-        text-align: center !important;
-        /* Usunięcie margin-left i margin-right, aby nie nadpisywały auto-centrowania */
-        margin-left: auto !important;
-        margin-right: auto !important;
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
       }
       .header h2 {
         font-size: 22px !important;
@@ -136,11 +155,29 @@
       }
       .legend-item {
         font-size: 18px !important;
-        justify-content: center !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        text-align: left !important;
       }
       .color-box {
         width: 22px !important;
         height: 22px !important;
+        border-radius: 5px;
+        margin-right: 8px;
+        display: inline-block;
+        border: 1.5px solid #bbb;
+      }
+      .color-box.rano {
+        background: #bbdefb !important;
+      }
+      .color-box.poludnie {
+        background: #c8e6c9 !important;
+      }
+      .color-box.nocka {
+        background: #ffcdd2 !important;
+      }
+      .color-box.swieto {
+        background: #ffe0b2 !important;
       }
     }
     .calendar {
@@ -235,18 +272,15 @@
       font-weight: bold;
     }
     .legend {
-      margin-top: 36px;
-      font-size: 14px;
-      background: white;
-      padding: 14px 10px;
-      border-radius: 14px;
-      box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10), 0 1px 2px 0 rgba(0,0,0,0.08);
-      max-width: 600px;
-      width: 100%;
-      transition: box-shadow 0.2s, border-radius 0.2s;
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
+  margin-top: 36px;
+  font-size: 14px;
+  background: white;
+  padding: 14px 10px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10), 0 1px 2px 0 rgba(0,0,0,0.08);
+  max-width: 600px;
+  width: 100%;
+  transition: box-shadow 0.2s, border-radius 0.2s;
     }
     .legend-item {
       display: flex;
@@ -284,10 +318,10 @@
       <tbody id="calendarBody"></tbody>
     </table>
     <div class="legend">
-      <div class="legend-item"><div class="color-box" style="background:#bbdefb;"></div> Rano ☀️</div>
-      <div class="legend-item"><div class="color-box" style="background:#c8e6c9;"></div> Południe 🌤️</div>
-      <div class="legend-item"><div class="color-box" style="background:#ffcdd2;"></div> Nocka 🌙</div>
-      <div class="legend-item"><div class="color-box" style="background:#ffe0b2;"></div> Święto 🎉</div>
+  <div class="legend-item"><div class="color-box rano"></div> Rano </div>
+  <div class="legend-item"><div class="color-box poludnie"></div> Południe </div>
+  <div class="legend-item"><div class="color-box nocka"></div> Nocka </div>
+  <div class="legend-item"><div class="color-box swieto"></div> Święto </div>
     </div>
   </div>
 
@@ -335,30 +369,30 @@
         days: ["Pn", "Wt", "Śr", "Cz", "Pt", "Sb", "Nd"],
         locale: "pl-PL",
         legend: {
-          morning: "Rano ☀️",
-          afternoon: "Południe 🌤️",
-          night: "Nocka 🌙",
-          holiday: "Święto 🎉"
+          morning: "Rano ",
+          afternoon: "Południe ",
+          night: "Nocka ",
+          holiday: "Święto "
         }
       },
       ru: {
         days: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
         locale: "ru-RU",
         legend: {
-          morning: "Утро ☀️",
-          afternoon: "День 🌤️",
-          night: "Ночь 🌙",
-          holiday: "Праздник 🎉"
+          morning: "Утро ",
+          afternoon: "День ",
+          night: "Ночь ",
+          holiday: "Праздник "
         }
       },
       de: {
         days: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
         locale: "de-DE",
         legend: {
-          morning: "Morgen ☀️",
-          afternoon: "Nachmittag 🌤️",
-          night: "Nacht 🌙",
-          holiday: "Feiertag 🎉"
+          morning: "Morgen ",
+          afternoon: "Nachmittag ",
+          night: "Nacht ",
+          holiday: "Feiertag "
         }
       }
     };
