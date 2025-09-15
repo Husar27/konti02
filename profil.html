@@ -6,6 +6,47 @@
 initial-scale=1.0" />
   <title>Profil użytkownika</title>
   <style>
+            .floating-btn {
+                  position: fixed;
+                  z-index: 1000;
+                  background: rgba(255,255,255,0.7);
+                  border: none;
+                  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+                  border-radius: 50%;
+                  padding: 8px;
+                  cursor: pointer;
+                  transition: background 0.2s, box-shadow 0.2s;
+                  color: #222;
+                  outline: none;
+                  backdrop-filter: blur(2px);
+            }
+            .floating-btn svg {
+                  display: block;
+                  width: 32px;
+                  height: 32px;
+                  stroke: #222;
+                  opacity: 0.85;
+            }
+            .floating-btn:hover {
+                  background: rgba(76,175,80,0.12);
+                  box-shadow: 0 4px 16px 0 rgba(76,175,80,0.18);
+            }
+            .back-btn {
+                  top: 24px;
+                  right: 24px;
+            }
+                        @media (max-width: 600px) {
+                              .back-btn {
+                                    top: 44px;
+                                    right: 44px;
+                                    left: unset;
+                                    bottom: unset;
+                              }
+                              .floating-btn svg {
+                                    width: 28px;
+                                    height: 28px;
+                              }
+                        }
     :root {
       --bg-light: #f0f0f0;
       --text-light: #333;
@@ -128,19 +169,24 @@ white; }
   </style>
 </head>
 <body>
-  <div class="profile-container">
-    <header>
-      <h2 id="usernameLabel">Witaj, <span
-id="username">Mariusz</span></h2>
-      <div class="theme-toggle">
-        <label class="switch">
-          <input type="checkbox" id="themeSwitch"
-/>
-          <span class="slider">🌞<span
-class="moon">🌙</span></span>
-        </label>
-      </div>
-    </header>
+      <button id="backBtn" title="Powrót do kalendarza" class="floating-btn back-btn" aria-label="Powrót do kalendarza">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="5" width="16" height="15" rx="3"/>
+                  <line x1="8" y1="3" x2="8" y2="7"/>
+                  <line x1="16" y1="3" x2="16" y2="7"/>
+                  <line x1="4" y1="10" x2="20" y2="10"/>
+            </svg>
+      </button>
+      <div class="profile-container">
+            <header>
+                  <h2 id="usernameLabel">Witaj, <span id="username">Mariusz</span></h2>
+                  <div class="theme-toggle">
+                        <label class="switch">
+                              <input type="checkbox" id="themeSwitch"/>
+                              <span class="slider">🌞<span class="moon">🌙</span></span>
+                        </label>
+                  </div>
+            </header>
 
     <section class="profile-form">
       <button id="toggleLanguagePanel">Zmień
@@ -219,6 +265,13 @@ hasło</button>
   </div>
 
   <script>
+            // Nawigacja: powrót do kalendarza i wylogowanie
+            document.getElementById("backBtn").addEventListener("click", function() {
+                  window.location.href = "calendar.html";
+            });
+            document.getElementById("logoutBtnFloating").addEventListener("click", function() {
+                  window.location.href = "index.html";
+            });
     const html = document.documentElement;
     const themeSwitch = document.getElementById("themeSwitch");
 
