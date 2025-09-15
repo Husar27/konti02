@@ -51,7 +51,7 @@
     @media (max-width: 600px) {
       .profile-btn {
         top: 12px;
-        right: 12px;
+        right: 24px;
       }
       .logout-btn {
         bottom: 12px;
@@ -92,8 +92,9 @@
         max-width: calc(100vw - 24px) !important;
         width: calc(100vw - 24px) !important;
         text-align: center !important;
-        margin-left: 12px !important;
-        margin-right: 12px !important;
+        /* Usunięcie margin-left i margin-right, aby nie nadpisywały auto-centrowania */
+        margin-left: auto !important;
+        margin-right: auto !important;
       }
       .header h2 {
         font-size: 22px !important;
@@ -243,6 +244,9 @@
       max-width: 600px;
       width: 100%;
       transition: box-shadow 0.2s, border-radius 0.2s;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
     }
     .legend-item {
       display: flex;
