@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,
+initial-scale=1.0" />
+  <title>Profil użytkownika</title>
+  <style>
+    :root {
+      --bg-light: #f0f0f0;
+      --text-light: #333;
+      --bg-dark: #1e1e1e;
+      --text-dark: #f0f0f0;
+    }
+
+    [data-theme="light"] {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    [data-theme="dark"] {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .profile-container {
+      max-width: 500px;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 10px;
+      background-color: inherit;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .theme-toggle .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      background-color: #ccc;
+      border-radius: 30px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      font-size: 18px;
+    }
+
+    .profile-form button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.7rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .panel {
+      display: none;
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: rgba(0,0,0,0.03);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-bottom: 1rem;
+    }
+
+    .vacation-info, .birthday-list {
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+
+    .birthday-entry {
+      margin-top: 0.3rem;
+    }
+
+    #saveEmailBtn, #saveLanguageBtn { background-color: #3f51b5; color:
+white; }
+    #toggleEmailPanel, #toggleVacationPanel, #toggleBirthdayPanel,
+#togglePasswordPanel, #toggleLanguagePanel {
+      background-color: #009688; color: white;
+    }
+    #saveVacationBtn, #addBirthdayBtn, #changePasswordBtn {
+      background-color: #2196F3; color: white;
+    }
+    #cancelVacationBtn {
+      background-color: #ff9800; color: white;
+    }
+    #logoutBtn {
+      background-color: #f44336; color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <header>
+      <h2 id="usernameLabel">Witaj, <span
+id="username">Mariusz</span></h2>
+      <div class="theme-toggle">
+        <label class="switch">
+          <input type="checkbox" id="themeSwitch"
+/>
+          <span class="slider">🌞<span
+class="moon">🌙</span></span>
+        </label>
+      </div>
+    </header>
+
+    <section class="profile-form">
+      <button id="toggleLanguagePanel">Zmień
+język</button>
+      <div id="languagePanel" class="panel">
+        <label id="labelLanguage"
+for="languageSelect">Wybierz język:</label>
+        <select id="languageSelect">
+          <option value="pl">Polski 🇵🇱</option>
+          <option value="de">Deutsch
+🇩🇪</option>
+          <option value="ru">Русский
+🇷🇺</option>
+        </select>
+        <button id="saveLanguageBtn">Zapisz
+język</button>
+      </div>
+
+      <button id="toggleEmailPanel">Zmień
+email</button>
+      <div id="emailPanel" class="panel">
+        <label id="labelEmail">Email:</label>
+        <input type="email" id="email"
+placeholder="Twój adres email" />
+        <button id="saveEmailBtn">Zapisz
+email</button>
+      </div>
+
+      <button id="toggleVacationPanel">Zarządzaj
+urlopem</button>
+      <div id="vacationPanel" class="panel">
+        <label id="labelVacationStart">Od:</label>
+        <input type="date" id="vacationStart" />
+        <label id="labelVacationEnd">Do:</label>
+        <input type="date" id="vacationEnd" />
+        <button id="saveVacationBtn">Zapisz
+urlop</button>
+        <button id="cancelVacationBtn"
+style="display:none;">Anuluj urlop</button>
+        <div class="vacation-info"
+id="vacationInfo"></div>
+      </div>
+
+      <button id="toggleBirthdayPanel">Zarządzaj
+urodzinami</button>
+      <div id="birthdayPanel" class="panel">
+        <label id="labelFriendName">Imię:</label>
+        <input type="text" id="friendName"
+placeholder="Imię znajomego" />
+        <label id="labelFriendBirthday">Data
+urodzin:</label>
+        <input type="date" id="friendBirthday" />
+        <button id="addBirthdayBtn">Dodaj
+urodziny</button>
+        <div class="birthday-list"
+id="birthdayList"></div>
+      </div>
+
+      <button id="togglePasswordPanel">Zmień
+hasło</button>
+      <div id="passwordPanel" class="panel">
+        <label id="labelOldPassword">Stare
+hasło:</label>
+        <input type="password" id="oldPassword"
+/>
+        <label id="labelNewPassword">Nowe
+hasło:</label>
+        <input type="password" id="newPassword"
+/>
+        <button id="changePasswordBtn">Zapisz nowe
+hasło</button>
+      </div>
+
+      <button id="logoutBtn">Wyloguj się</button>
+    </section>
+  </div>
+
+  <script>
+    const html = document.documentElement;
+    const themeSwitch = document.getElementById("themeSwitch");
+
+    themeSwitch.addEventListener("change", () => {
+      const theme = themeSwitch.checked ? "dark" :
+"light";
+      html.setAttribute("data-theme", theme);
+      localStorage.setItem("userTheme", theme);
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("userTheme") ||
+"light";
+      html.setAttribute("data-theme", savedTheme);
+      themeSwitch.checked = savedTheme === "dark";
+
+      const lang = localStorage.getItem("userLanguage") ||
+"pl";
+      document.getElementById("languageSelect").value = lang;
+      applyLanguage(lang);
+
+      const vacation =
+JSON.parse(localStorage.getItem("userVacation"));
+      if (vacation) {
+        document.getElementById("vacationInfo").textContent =
+`Twój urlop: ${vacation.start} → ${vacation.end}`;
+       
+document.getElementById("cancelVacationBtn").style.display =
+"inline-block";
+      }
+
+      const birthdays =
+JSON.parse(localStorage.getItem("userBirthdays")) || [];
+      updateBirthdayList(birthdays);
+    });
+
+    function togglePanel(id) {
+      const panel = document.getElementById(id);
+      panel.style.display = panel.style.display === "none" ?
+"block" : "none";
+    }
+
+   
+document.getElementById("toggleLanguagePanel").addEventListener("click",
+() => togglePanel("languagePanel"));
+   
+document.getElementById("toggleEmailPanel").addEventListener("click",
+() => togglePanel("emailPanel"));
+   
+document.getElementById("toggleVacationPanel").addEventListener("click",
+() => togglePanel("vacationPanel"));
+   
+document.getElementById("toggleBirthdayPanel").addEventListener("click",
+() => togglePanel("birthdayPanel"));
+   
+document.getElementById("togglePasswordPanel").addEventListener("click",
+() => togglePanel("passwordPanel"));
+
+   
+document.getElementById("saveEmailBtn").addEventListener("click",
+() => {
+      const email = document.getElementById("email").value;
+      if (!email) return alert("Wprowadź adres email.");
+      localStorage.setItem("userEmail", email);
+      alert("Email zapisany.");
+      document.getElementById("emailPanel").style.display =
+"none";
+    });
+
+   
+document.getElementById("saveVacationBtn").addEventListener("click",
+() => {
+      const start = document.getElementById("vacationStart").value;
+      const end = document.getElementById("vacationEnd").value;
+      if (!start || !end || start > end) return alert("Wprowadź poprawny zakres dat.");
+      const vacation = { start, end };
+      localStorage.setItem("userVacation",
+JSON.stringify(vacation));
+      document.getElementById("vacationInfo").textContent =
+`Twój urlop: ${start} → ${end}`;
+      document.getElementById("cancelVacationBtn").style.display
+= "inline-block";
+      alert("Urlop zapisany.");
+    });
+
+   
+document.getElementById("cancelVacationBtn").addEventListener("click",
+() => {
+      localStorage.removeItem("userVacation");
+      document.getElementById("vacationInfo").textContent =
+"";
+      document.getElementById("cancelVacationBtn").style.display
+= "none";
+      alert("Urlop anulowany.");
+    });
+
+   
+document.getElementById("addBirthdayBtn").addEventListener("click",
+() => {
+      const name = document.getElementById("friendName").value.trim();
+      const date = document.getElementById("friendBirthday").value;
+      if (!name || !date) return alert("Wprowadź imię i datę urodzin.");
+      const birthdays = JSON.parse(localStorage.getItem("userBirthdays")) || [];
+      birthdays.push({ name, date });
+      localStorage.setItem("userBirthdays",
+JSON.stringify(birthdays));
+      updateBirthdayList(birthdays);
+      document.getElementById("friendName").value = "";
+      document.getElementById("friendBirthday").value =
+"";
+      alert("Urodziny dodane.");
+    });
+
+    function updateBirthdayList(birthdays) {
+      const list = document.getElementById("birthdayList");
+      list.innerHTML = "";
+      birthdays.forEach((entry) => {
+        const div = document.createElement("div");
+        div.className = "birthday-entry";
+        div.textContent = `${entry.name} – ${entry.date}`;
+        list.appendChild(div);
+      });
+    }
+
+   
+document.getElementById("changePasswordBtn").addEventListener("click",
+() => {
+      const oldPass = document.getElementById("oldPassword").value;
+      const newPass = document.getElementById("newPassword").value;
+      if (!oldPass || !newPass) return alert("Wprowadź oba hasła.");
+      alert("Hasło zostało zmienione.");
+      document.getElementById("oldPassword").value = "";
+      document.getElementById("newPassword").value = "";
+      document.getElementById("passwordPanel").style.display = "none";
+    });
+
+   
+document.getElementById("saveLanguageBtn").addEventListener("click",
+() => {
+      const lang =
+document.getElementById("languageSelect").value;
+      localStorage.setItem("userLanguage", lang);
+      applyLanguage(lang);
+      alert("Język zapisany.");
+      document.getElementById("languagePanel").style.display =
+"none";
+    });
+
+    function applyLanguage(lang) {
+      const t = {
+        pl: {
+          usernameLabel: "Witaj,",
+          toggleEmailPanel: "Zmień email",
+          toggleVacationPanel: "Zarządzaj urlopem",
+          toggleBirthdayPanel: "Zarządzaj urodzinami",
+          togglePasswordPanel: "Zmień hasło",
+          toggleLanguagePanel: "Zmień język",
+          logoutBtn: "Wyloguj się",
+          saveEmailBtn: "Zapisz email",
+          saveVacationBtn: "Zapisz urlop",
+          cancelVacationBtn: "Anuluj urlop",
+          addBirthdayBtn: "Dodaj urodziny",
+          changePasswordBtn: "Zapisz nowe hasło",
+          saveLanguageBtn: "Zapisz język",
+          labelLanguage: "Wybierz język:",
+          labelEmail: "Email:",
+          labelVacationStart: "Od:",
+          labelVacationEnd: "Do:",
+          labelFriendName: "Imię:",
+          labelFriendBirthday: "Data urodzin:",
+          labelOldPassword: "Stare hasło:",
+          labelNewPassword: "Nowe hasło:"
+        },
+        de: {
+          usernameLabel: "Willkommen,",
+          toggleEmailPanel: "E-Mail ändern",
+          toggleVacationPanel: "Urlaub verwalten",
+          toggleBirthdayPanel: "Geburtstage verwalten",
+          togglePasswordPanel: "Passwort ändern",
+          toggleLanguagePanel: "Sprache ändern",
+          logoutBtn: "Abmelden",
+          saveEmailBtn: "E-Mail speichern",
+          saveVacationBtn: "Urlaub speichern",
+          cancelVacationBtn: "Urlaub löschen",
+          addBirthdayBtn: "Geburtstag hinzufügen",
+          changePasswordBtn: "Passwort speichern",
+          saveLanguageBtn: "Sprache speichern",
+          labelLanguage: "Sprache wählen:",
+          labelEmail: "E-Mail:",
+          labelVacationStart: "Von:",
+          labelVacationEnd: "Bis:",
+          labelFriendName: "Name:",
+          labelFriendBirthday: "Geburtstag:",
+          labelOldPassword: "Altes Passwort:",
+          labelNewPassword: "Neues Passwort:"
+        },
+        ru: {
+          usernameLabel: "Добро пожаловать,",
+          toggleEmailPanel: "Изменить email",
+          toggleVacationPanel: "Управление отпуском",
+          toggleBirthdayPanel: "Дни рождения друзей",
+          togglePasswordPanel: "Сменить пароль",
+          toggleLanguagePanel: "Изменить язык",
+          logoutBtn: "Выйти",
+          saveEmailBtn: "Сохранить email",
+          saveVacationBtn: "Сохранить отпуск",
+          cancelVacationBtn: "Удалить отпуск",
+          addBirthdayBtn: "Добавить день рождения",
+          changePasswordBtn: "Сохранить пароль",
+          saveLanguageBtn: "Сохранить язык",
+          labelLanguage: "Выберите язык:",
+          labelEmail: "Email:",
+          labelVacationStart: "С:",
+          labelVacationEnd: "По:",
+          labelFriendName: "Имя:",
+          labelFriendBirthday: "Дата рождения:",
+          labelOldPassword: "Старый пароль:",
+          labelNewPassword: "Новый пароль:"
+        }
+      };
+
+      const tr = t[lang];
+      document.getElementById("usernameLabel").innerText =
+`${tr.usernameLabel}
+${document.getElementById("username").innerText}`;
+      document.getElementById("toggleEmailPanel").innerText =
+tr.toggleEmailPanel;
+      document.getElementById("toggleVacationPanel").innerText =
+tr.toggleVacationPanel;
+      document.getElementById("toggleBirthdayPanel").innerText =
+tr.toggleBirthdayPanel;
+      document.getElementById("togglePasswordPanel").innerText =
+tr.togglePasswordPanel;
+      document.getElementById("toggleLanguagePanel").innerText =
+tr.toggleLanguagePanel;
+      document.getElementById("logoutBtn").innerText =
+tr.logoutBtn;
+      document.getElementById("saveEmailBtn").innerText =
+tr.saveEmailBtn;
+      document.getElementById("saveVacationBtn").innerText =
+tr.saveVacationBtn;
+      document.getElementById("cancelVacationBtn").innerText =
+tr.cancelVacationBtn;
+      document.getElementById("addBirthdayBtn").innerText =
+tr.addBirthdayBtn;
+      document.getElementById("changePasswordBtn").innerText =
+tr.changePasswordBtn;
+      document.getElementById("saveLanguageBtn").innerText =
+tr.saveLanguageBtn;
+      document.getElementById("labelLanguage").innerText =
+tr.labelLanguage;
+      document.getElementById("labelEmail").innerText =
+tr.labelEmail;
+      document.getElementById("labelVacationStart").innerText =
+tr.labelVacationStart;
+      document.getElementById("labelVacationEnd").innerText =
+tr.labelVacationEnd;
+      document.getElementById("labelFriendName").innerText =
+tr.labelFriendName;
+      document.getElementById("labelFriendBirthday").innerText =
+tr.labelFriendBirthday;
+      document.getElementById("labelOldPassword").innerText =
+tr.labelOldPassword;
+      document.getElementById("labelNewPassword").innerText =
+tr.labelNewPassword;
+    }
+  </script>
+</body>
+</html>
