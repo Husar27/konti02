@@ -151,21 +151,19 @@ initial-scale=1.0" />
       margin-top: 0.3rem;
     }
 
-    #saveEmailBtn, #saveLanguageBtn { background-color: #3f51b5; color:
-white; }
-    #toggleEmailPanel, #toggleVacationPanel, #toggleBirthdayPanel,
-#togglePasswordPanel, #toggleLanguagePanel {
-      background-color: #009688; color: white;
-    }
-    #saveVacationBtn, #addBirthdayBtn, #changePasswordBtn {
-      background-color: #2196F3; color: white;
-    }
-    #cancelVacationBtn {
-      background-color: #ff9800; color: white;
-    }
-    #logoutBtn {
-      background-color: #f44336; color: white;
-    }
+            /* Wszystkie przyciski na zielono, Wyloguj się na szaro */
+            #saveEmailBtn, #saveLanguageBtn,
+            #toggleEmailPanel, #toggleVacationPanel, #toggleBirthdayPanel,
+            #togglePasswordPanel, #toggleLanguagePanel,
+            #saveVacationBtn, #addBirthdayBtn, #changePasswordBtn,
+            #cancelVacationBtn {
+                  background-color: #4CAF50;
+                  color: white;
+            }
+            #logoutBtn {
+                  background-color: #757575;
+                  color: white;
+            }
   </style>
 </head>
 <body>
@@ -269,7 +267,15 @@ hasło</button>
             document.getElementById("backBtn").addEventListener("click", function() {
                   window.location.href = "calendar.html";
             });
-            document.getElementById("logoutBtnFloating").addEventListener("click", function() {
+            // Wylogowanie: czyści dane użytkownika i przekierowuje do index.html
+            document.getElementById("logoutBtn").addEventListener("click", function() {
+                  // Usuń dane użytkownika z localStorage
+                  localStorage.removeItem("userTheme");
+                  localStorage.removeItem("userLanguage");
+                  localStorage.removeItem("userEmail");
+                  localStorage.removeItem("userVacation");
+                  localStorage.removeItem("userBirthdays");
+                  // Możesz dodać inne klucze jeśli są potrzebne
                   window.location.href = "index.html";
             });
     const html = document.documentElement;

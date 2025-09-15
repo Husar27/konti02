@@ -293,6 +293,7 @@
     <button id="profileBtn" title="Profil" class="floating-btn profile-btn" aria-label="Profil">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 8-4 8-4s8 0 8 4"/></svg>
     </button>
+    <div id="guestMsg" style="display:none;position:fixed;top:70px;right:24px;z-index:1100;background:#fffbe7;color:#222;padding:14px 18px;border-radius:12px;box-shadow:0 2px 8px 0 rgba(0,0,0,0.10);font-size:16px;font-weight:bold;"></div>
     <button id="logoutBtn" title="Wyloguj" class="floating-btn logout-btn" aria-label="Wyloguj">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
     </button>
@@ -327,8 +328,29 @@
 
   <script>
     // Nawigacja: profil i wylogowanie
-    document.getElementById("profileBtn").addEventListener("click", function() {
-      window.location.href = "profil.html";
+    // Obsługa przycisku Profil: jeśli gość, wyświetl komunikat, jeśli zalogowany, przejdź do profilu
+    const profileBtn = document.getElementById("profileBtn");
+    const guestMsg = document.getElementById("guestMsg");
+    const guestMessages = {
+      pl: "Proszę się zalogować, aby przejść do profilu.",
+      de: "Bitte melden Sie sich an, um das Profil zu öffnen.",
+      ru: "Пожалуйста, войдите, чтобы открыть профиль."
+    };
+    function getCurrentLang() {
+      return localStorage.getItem("userLanguage") || localStorage.getItem("selectedLanguage") || "pl";
+    }
+    function isGuest() {
+      return !localStorage.getItem("userProfile");
+    }
+    profileBtn.addEventListener("click", function() {
+      if (isGuest()) {
+        const lang = getCurrentLang();
+        guestMsg.textContent = guestMessages[lang] || guestMessages.pl;
+        guestMsg.style.display = "block";
+        setTimeout(() => { guestMsg.style.display = "none"; }, 3000);
+      } else {
+        window.location.href = "profil.html";
+      }
     });
     document.getElementById("logoutBtn").addEventListener("click", function() {
       localStorage.clear();

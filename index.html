@@ -135,6 +135,7 @@ initial-scale=1.0">
   </style>
 </head>
 <body>
+  <div id="infoMsg" style="display:none;position:fixed;top:70px;right:24px;z-index:1100;background:#fffbe7;color:#222;padding:14px 18px;border-radius:12px;box-shadow:0 2px 8px 0 rgba(0,0,0,0.10);font-size:16px;font-weight:bold;"></div>
   <div class="app-card">
     <h2><i class="fa-solid
 fa-calendar-days"></i> <span
@@ -205,15 +206,16 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
     };
 
     function changeLanguage() {
-  const lang = document.getElementById("language").value;
-  localStorage.setItem("selectedLanguage", lang);
-  const t = translations[lang];
-  document.getElementById("titleText").textContent = t.title;
-  document.getElementById("nick").placeholder = t.nick;
-  document.getElementById("password").placeholder = t.password;
-  document.getElementById("registerBtn").textContent = t.register;
-  document.getElementById("loginBtn").textContent = t.login;
-  document.querySelector(".btn-guest").textContent = t.guest;
+      const lang = document.getElementById("language").value;
+      localStorage.setItem("selectedLanguage", lang);
+      localStorage.setItem("userLanguage", lang); // Ustaw także userLanguage dla spójności na innych stronach
+      const t = translations[lang];
+      document.getElementById("titleText").textContent = t.title;
+      document.getElementById("nick").placeholder = t.nick;
+      document.getElementById("password").placeholder = t.password;
+      document.getElementById("registerBtn").textContent = t.register;
+      document.getElementById("loginBtn").textContent = t.login;
+      document.querySelector(".btn-guest").textContent = t.guest;
     }
 
     function togglePassword() {
@@ -236,32 +238,56 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
   changeLanguage();
     };
 
+
+    // Komunikaty w stylu calendar.html
+    const infoMsg = document.getElementById("infoMsg");
+    const infoMessages = {
+      de: {
+        wrong: "Benutzername oder Passwort falsch.",
+        empty: "Bitte Benutzername und Passwort eingeben.",
+        registered: "Profil gespeichert!"
+      },
+      pl: {
+        wrong: "Nieprawidłowy login lub hasło.",
+        empty: "Wpisz login i hasło.",
+        registered: "Profil został utworzony!"
+      },
+      ru: {
+        wrong: "Неверное имя или пароль.",
+        empty: "Введите имя и пароль.",
+        registered: "Профиль успешно создан!"
+      }
+    };
+    function showInfoMsg(type) {
+      const lang = localStorage.getItem("userLanguage") || localStorage.getItem("selectedLanguage") || "de";
+      infoMsg.textContent = infoMessages[lang][type] || infoMessages.de[type];
+      infoMsg.style.display = "block";
+      setTimeout(() => { infoMsg.style.display = "none"; }, 3000);
+    }
+
     function register() {
       const nick = document.getElementById("nick").value.trim();
       const password = document.getElementById("password").value;
       const language = document.getElementById("language").value;
 
       if (!nick || !password) {
-        alert("Bitte Benutzername und Passwort eingeben.");
+        showInfoMsg("empty");
         return;
       }
 
       const profile = { nick, password, language };
-      localStorage.setItem("userProfile",
-JSON.stringify(profile));
-      alert("Profil gespeichert!");
-      window.location.href = "calendar.html";
+      localStorage.setItem("userProfile", JSON.stringify(profile));
+      showInfoMsg("registered");
+      setTimeout(() => { window.location.href = "calendar.html"; }, 1200);
     }
 
     function login() {
       const nick = document.getElementById("nick").value.trim();
       const password = document.getElementById("password").value;
-      const savedProfile =
-JSON.parse(localStorage.getItem("userProfile"));
+      const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
 
-      if (!savedProfile || savedProfile.nick !== nick ||
-savedProfile.password !== password) {
-        alert("Benutzername oder Passwort falsch.");
+      if (!savedProfile || savedProfile.nick !== nick || savedProfile.password !== password) {
+        showInfoMsg("wrong");
         return;
       }
 
