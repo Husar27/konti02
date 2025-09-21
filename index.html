@@ -338,6 +338,7 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
 
     function goToCalendar() {
   localStorage.removeItem("userProfile");
+  sessionStorage.setItem("guest", "1");
   window.location.href = "calendar.html";
     }
   </script>

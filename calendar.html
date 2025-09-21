@@ -712,8 +712,8 @@
       legendItems[3].lastChild.textContent = legendTexts.holiday;
     }
 
-    // Sprawdź czy użytkownik jest zalogowany
-    if (!sessionStorage.getItem("login")) {
+    // Sprawdź czy użytkownik jest zalogowany lub gość
+    if (!sessionStorage.getItem("login") && !sessionStorage.getItem("guest")) {
       window.location.href = "index.html";
     }
     // Inicjalizacja
