@@ -1,6 +1,38 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+  <style>
+    [data-theme="dark"] {
+      background: #181818 !important;
+      color: #f0f0f0 !important;
+    }
+    [data-theme="dark"] .calendar {
+      background: #232323 !important;
+      color: #f0f0f0 !important;
+      box-shadow: 0 4px 18px 0 rgba(0,0,0,0.30), 0 1.5px 4px 0 rgba(0,0,0,0.18);
+    }
+    [data-theme="dark"] .legend {
+      background: #232323 !important;
+      color: #f0f0f0 !important;
+      box-shadow: 0 2px 10px 0 rgba(0,0,0,0.30), 0 1px 2px 0 rgba(0,0,0,0.18);
+    }
+    [data-theme="dark"] .dot.yellow.active { background-color: #ffe066 !important; color: #222 !important; }
+    [data-theme="dark"] .dot.yellow.inactive { background-color: #fff9c4 !important; color: #222 !important; }
+    [data-theme="dark"] .dot.green.active { background-color: #43a047 !important; }
+    [data-theme="dark"] .dot.green.inactive { background-color: #388e3c !important; }
+    [data-theme="dark"] .dot.blue.active { background-color: #1976d2 !important; }
+    [data-theme="dark"] .dot.blue.inactive { background-color: #1565c0 !important; }
+    [data-theme="dark"] .dot.red.active { background-color: #e53935 !important; }
+    [data-theme="dark"] .dot.red.inactive { background-color: #b71c1c !important; }
+    [data-theme="dark"] .color-box.rano { background: #1976d2 !important; }
+    [data-theme="dark"] .color-box.poludnie { background: #388e3c !important; }
+    [data-theme="dark"] .color-box.nocka { background: #e57373 !important; }
+    [data-theme="dark"] .color-box.swieto { background: #ffe066 !important; color: #222 !important; }
+    [data-theme="dark"] .color-box { border: 1.5px solid #888 !important; }
+    [data-theme="dark"] .floating-btn { background: rgba(40,40,40,0.7) !important; color: #f0f0f0 !important; }
+    [data-theme="dark"] .floating-btn svg { stroke: #f0f0f0 !important; }
+    [data-theme="dark"] .floating-btn:hover { background: rgba(76,175,80,0.18) !important; }
+  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kalendarz pracy Mariusza</title>
