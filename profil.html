@@ -289,14 +289,15 @@ hasło</button>
     const themeSwitch = document.getElementById("themeSwitch");
 
     themeSwitch.addEventListener("change", () => {
-      const theme = themeSwitch.checked ? "dark" :
-"light";
+      const theme = themeSwitch.checked ? "dark" : "light";
       html.setAttribute("data-theme", theme);
       localStorage.setItem("userTheme", theme);
+      sessionStorage.setItem("userTheme", theme);
     });
 
     window.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("userTheme") || "light";
+      // Pobierz motyw z localStorage/sessionStorage (dla zalogowanego)
+      let savedTheme = sessionStorage.getItem("userTheme") || localStorage.getItem("userTheme") || "light";
       html.setAttribute("data-theme", savedTheme);
       themeSwitch.checked = savedTheme === "dark";
 
