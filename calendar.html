@@ -459,7 +459,7 @@
       return localStorage.getItem("userLanguage") || localStorage.getItem("selectedLanguage") || "pl";
     }
     function isGuest() {
-      return !localStorage.getItem("userProfile");
+  return !sessionStorage.getItem("login");
     }
     profileBtn.addEventListener("click", function() {
       if (isGuest()) {
