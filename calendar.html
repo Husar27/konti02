@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kalendarz pracy Mariusza</title>
   <style>
+    .dot.gray3 {
+      background: #e0e0e0 !important;
+      color: #888 !important;
+      border: 1.5px solid #bbb !important;
+      cursor: not-allowed !important;
+      opacity: 0.7 !important;
+    }
     .dot.gray {
       background: #e0e0e0 !important;
       color: #888 !important;
@@ -343,6 +350,11 @@
     let workShift = null; // 'zmianaA', 'zmianaB', 'zmianaC' lub null
 
     function setWorkShift(shift) {
+      // Przywróć kolory systemu 3-zmianowego
+      ["zmianaA","zmianaB","zmianaC"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.remove("gray3");
+      });
       // Wyszarz system 4-zmianowy jeśli wybrano zmianę
       ["dotA","dotB","dotC","dotD"].forEach(id => {
         const btn = document.getElementById(id);
@@ -643,6 +655,11 @@
     }
 
     function setShiftSystem(system) {
+      // Wyszarz system 3-zmianowy jeśli wracamy do systemów
+      ["zmianaA","zmianaB","zmianaC"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.add("gray3");
+      });
       shiftSystem = system;
       // Reset wyboru zmiany jeśli wracamy do systemów
       workShift = null;
