@@ -395,19 +395,33 @@
     // Logika zmian A, B, C (pon-pt praca, sb-nd wolne, rotacja tygodniowa)
     let workShift = null; // 'zmianaA', 'zmianaB', 'zmianaC' lub null
 
+    // Automatyczne ustawienie systemu zmian i zmiany na podstawie profilu
+    function applyUserShiftSettings() {
+      const userSystem = sessionStorage.getItem("userShiftSystem") || localStorage.getItem("userShiftSystem");
+      const userType = sessionStorage.getItem("userShiftType") || localStorage.getItem("userShiftType");
+      if (userSystem === "3") {
+        // 3-zmianowy: ustaw odpowiednią zmianę
+        if (["A","B","C"].includes(userType)) {
+          setWorkShift("zmiana" + userType);
+        }
+      } else if (userSystem === "4") {
+        // 4-zmianowy: ustaw system A/B/C/D
+        if (["A","B","C","D"].includes(userType)) {
+          setShiftSystem(userType);
+        }
+      }
+    }
+
     function setWorkShift(shift) {
-      // Przywróć kolory systemu 3-zmianowego
       ["zmianaA","zmianaB","zmianaC"].forEach(id => {
         const btn = document.getElementById(id);
         if (btn) btn.classList.remove("gray3");
       });
-      // Wyszarz system 4-zmianowy jeśli wybrano zmianę
       ["dotA","dotB","dotC","dotD"].forEach(id => {
         const btn = document.getElementById(id);
         if (btn) btn.classList.add("gray");
       });
       workShift = shift;
-      // podświetlanie aktywnej kropki
       ["zmianaA","zmianaB","zmianaC"].forEach(id => {
         const btn = document.getElementById(id);
         if (btn) btn.classList.remove("active", "inactive");
@@ -759,9 +773,10 @@
     if (!sessionStorage.getItem("login") && !sessionStorage.getItem("guest")) {
       window.location.href = "index.html";
     }
-    // Inicjalizacja
-    renderCalendar(currentDate);
-    updateLegend();
+  // Inicjalizacja
+  applyUserShiftSettings();
+  renderCalendar(currentDate);
+  updateLegend();
   </script>
 </body>
 </html>
