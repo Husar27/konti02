@@ -328,6 +328,45 @@
 
   <script>
     // Nawigacja: profil i wylogowanie
+    // Swipe na urządzeniach mobilnych do zmiany miesiąca
+    let touchStartX = null;
+    let touchEndX = null;
+    const calendarDiv = document.querySelector('.calendar');
+
+    function handleTouchStart(e) {
+      if (e.touches && e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+      }
+    }
+
+    function handleTouchMove(e) {
+      if (e.touches && e.touches.length === 1) {
+        touchEndX = e.touches[0].clientX;
+      }
+    }
+
+    function handleTouchEnd() {
+      if (touchStartX !== null && touchEndX !== null) {
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 50) { // minimalny dystans do uznania za swipe
+          if (diff < 0) {
+            // swipe w lewo - następny miesiąc
+            changeMonth(1);
+          } else {
+            // swipe w prawo - poprzedni miesiąc
+            changeMonth(-1);
+          }
+        }
+      }
+      touchStartX = null;
+      touchEndX = null;
+    }
+
+    if (calendarDiv) {
+      calendarDiv.addEventListener('touchstart', handleTouchStart, {passive: true});
+      calendarDiv.addEventListener('touchmove', handleTouchMove, {passive: true});
+      calendarDiv.addEventListener('touchend', handleTouchEnd, {passive: true});
+    }
     // Obsługa przycisku Profil: jeśli gość, wyświetl komunikat, jeśli zalogowany, przejdź do profilu
     const profileBtn = document.getElementById("profileBtn");
     const guestMsg = document.getElementById("guestMsg");
