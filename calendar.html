@@ -472,8 +472,10 @@
       }
     });
     document.getElementById("logoutBtn").addEventListener("click", function() {
-      localStorage.clear();
-      window.location.href = "index.html";
+  localStorage.clear();
+  sessionStorage.removeItem("login");
+  sessionStorage.removeItem("guest");
+  window.location.href = "index.html";
     });
 
     const monthYear = document.getElementById("monthYear");
