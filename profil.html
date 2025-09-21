@@ -167,7 +167,13 @@ initial-scale=1.0" />
   </style>
 </head>
 <body>
-      <button id="backBtn" title="Powrót do kalendarza" class="floating-btn back-btn" aria-label="Powrót do kalendarza">
+                  <script>
+                        // Sprawdź czy użytkownik jest zalogowany
+                        if (!sessionStorage.getItem("login")) {
+                              window.location.href = "index.html";
+                        }
+                  </script>
+                  <button id="backBtn" title="Powrót do kalendarza" class="floating-btn back-btn" aria-label="Powrót do kalendarza">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="4" y="5" width="16" height="15" rx="3"/>
                   <line x1="8" y1="3" x2="8" y2="7"/>
@@ -269,13 +275,13 @@ hasło</button>
             });
             // Wylogowanie: czyści dane użytkownika i przekierowuje do index.html
             document.getElementById("logoutBtn").addEventListener("click", function() {
-                  // Usuń dane użytkownika z localStorage
+                  // Usuń dane użytkownika z localStorage i sessionStorage
                   localStorage.removeItem("userTheme");
                   localStorage.removeItem("userLanguage");
                   localStorage.removeItem("userEmail");
                   localStorage.removeItem("userVacation");
                   localStorage.removeItem("userBirthdays");
-                  // Możesz dodać inne klucze jeśli są potrzebne
+                  sessionStorage.removeItem("login");
                   window.location.href = "index.html";
             });
     const html = document.documentElement;
