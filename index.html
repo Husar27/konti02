@@ -206,16 +206,16 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
     };
 
     function changeLanguage() {
-      const lang = document.getElementById("language").value;
-      localStorage.setItem("selectedLanguage", lang);
-      localStorage.setItem("userLanguage", lang); // Ustaw także userLanguage dla spójności na innych stronach
-      const t = translations[lang];
-      document.getElementById("titleText").textContent = t.title;
-      document.getElementById("nick").placeholder = t.nick;
-      document.getElementById("password").placeholder = t.password;
-      document.getElementById("registerBtn").textContent = t.register;
-      document.getElementById("loginBtn").textContent = t.login;
-      document.querySelector(".btn-guest").textContent = t.guest;
+  const lang = document.getElementById("language").value;
+  localStorage.setItem("selectedLanguage", lang);
+  // userLanguage zapisujemy tylko przy rejestracji lub zmianie w profilu
+  const t = translations[lang];
+  document.getElementById("titleText").textContent = t.title;
+  document.getElementById("nick").placeholder = t.nick;
+  document.getElementById("password").placeholder = t.password;
+  document.getElementById("registerBtn").textContent = t.register;
+  document.getElementById("loginBtn").textContent = t.login;
+  document.querySelector(".btn-guest").textContent = t.guest;
     }
 
     function togglePassword() {
