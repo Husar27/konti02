@@ -426,10 +426,10 @@ document.getElementById("languageSelect").value;
 "none";
     });
 
-    function applyLanguage(lang) {
-      const t = {
-        pl: {
-          usernameLabel: "Witaj,",
+            function applyLanguage(lang) {
+                  const t = {
+                        pl: {
+                              usernameLabel: "Witaj,",
           toggleEmailPanel: "Zmień email",
           toggleVacationPanel: "Zarządzaj urlopem",
           toggleBirthdayPanel: "Zarządzaj urodzinami",
@@ -500,9 +500,9 @@ document.getElementById("languageSelect").value;
       };
 
       const tr = t[lang];
-      document.getElementById("usernameLabel").innerText =
-`${tr.usernameLabel}
-${document.getElementById("username").innerText}`;
+      // Pobierz login z sessionStorage
+      const login = sessionStorage.getItem("login") || "";
+      document.getElementById("usernameLabel").innerText = `${tr.usernameLabel} ${login}`;
       document.getElementById("toggleEmailPanel").innerText =
 tr.toggleEmailPanel;
       document.getElementById("toggleVacationPanel").innerText =
