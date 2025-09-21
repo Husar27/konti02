@@ -305,6 +305,11 @@
       <button id="dotC" class="dot green inactive" onclick="setShiftSystem('alt')">C</button>
       <button id="dotD" class="dot yellow active" onclick="setShiftSystem('default')">D</button>
     </div>
+    <div class="shift-switch" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+      <button id="zmianaA" class="dot blue inactive" onclick="setWorkShift('zmianaA')">A</button>
+      <button id="zmianaB" class="dot red inactive" onclick="setWorkShift('zmianaB')">B</button>
+      <button id="zmianaC" class="dot green inactive" onclick="setWorkShift('zmianaC')">C</button>
+    </div>
     <div class="header">
       <button onclick="changeMonth(-1)">←</button>
       <h2 id="monthYear"></h2>
@@ -327,6 +332,52 @@
   </div>
 
   <script>
+    // Logika zmian A, B, C (pon-pt praca, sb-nd wolne, rotacja tygodniowa)
+    let workShift = null; // 'zmianaA', 'zmianaB', 'zmianaC' lub null
+
+    function setWorkShift(shift) {
+      workShift = shift;
+      // podświetlanie aktywnej kropki
+      ["zmianaA","zmianaB","zmianaC"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.remove("active", "inactive");
+      });
+      if (shift) {
+        document.getElementById(shift).classList.add("active");
+        ["zmianaA","zmianaB","zmianaC"].filter(id => id !== shift).forEach(id => {
+          document.getElementById(id).classList.add("inactive");
+        });
+      }
+      renderCalendar(currentDate);
+    }
+
+    function getShiftTypeForWorkShift(date) {
+      // Zmiana A: 6 stycznia 2025 rano, B: południe, C: nocki
+      const startDate = new Date(2025, 0, 6); // 6 stycznia 2025 (poniedziałek)
+      const dayOfWeek = date.getDay(); // 0 - niedziela, 1 - poniedziałek, ...
+      if (dayOfWeek === 0 || dayOfWeek === 6) return "Wolne"; // weekend
+      // Znajdź poniedziałek tygodnia startowego
+      const getMonday = d => {
+        const nd = new Date(d);
+        const diff = nd.getDay() === 0 ? -6 : 1 - nd.getDay();
+        nd.setDate(nd.getDate() + diff);
+        nd.setHours(0,0,0,0);
+        return nd;
+      };
+      const mondayStart = getMonday(startDate);
+      const mondayCurrent = getMonday(date);
+      const weekDiff = Math.round((mondayCurrent - mondayStart) / (1000*60*60*24*7));
+      if (weekDiff < 0) return "Wolne";
+      let base = 0;
+      if (workShift === "zmianaA") base = 0;
+      if (workShift === "zmianaB") base = 1;
+      if (workShift === "zmianaC") base = 2;
+      const shiftIndex = (weekDiff + base) % 3;
+      if (shiftIndex === 0) return "Rano";
+      if (shiftIndex === 1) return "Południe";
+      if (shiftIndex === 2) return "Nocka";
+      return "Wolne";
+    }
     // Nawigacja: profil i wylogowanie
     // Swipe na urządzeniach mobilnych do zmiany miesiąca
     let touchStartX = null;
@@ -494,6 +545,9 @@
     }
 
     function getShiftType(date) {
+      if (workShift === "zmianaA" || workShift === "zmianaB" || workShift === "zmianaC") {
+        return getShiftTypeForWorkShift(date);
+      }
       const system = systemCycles[shiftSystem];
       const currentUTC = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
       const dayDiff = Math.floor((currentUTC - system.start.getTime()) / (1000 * 60 * 60 * 24));
@@ -578,7 +632,12 @@
 
     function setShiftSystem(system) {
       shiftSystem = system;
-
+      // Reset wyboru zmiany jeśli wracamy do systemów
+      workShift = null;
+      ["zmianaA","zmianaB","zmianaC"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.remove("active", "inactive");
+      });
       const dots = {
         default: document.getElementById("dotD"),
         alt: document.getElementById("dotC"),
@@ -593,7 +652,6 @@
           dots[key].classList.add("inactive");
         }
       }
-
       renderCalendar(currentDate);
       updateLegend();
     }
