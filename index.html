@@ -275,23 +275,58 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
         return;
       }
 
-      const profile = { nick, password, language };
-      localStorage.setItem("userProfile", JSON.stringify(profile));
-      showInfoMsg("registered");
-      setTimeout(() => { window.location.href = "calendar.html"; }, 1200);
+      fetch("http://localhost:3001/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ login: nick, password })
+      })
+        .then(async res => {
+          if (res.status === 201) {
+            showInfoMsg("registered");
+            setTimeout(() => { window.location.href = "profil.html"; }, 1200);
+          } else if (res.status === 409) {
+            infoMsg.textContent = "Login już istnieje.";
+            infoMsg.style.display = "block";
+            setTimeout(() => { infoMsg.style.display = "none"; }, 3000);
+          } else {
+            infoMsg.textContent = "Błąd serwera.";
+            infoMsg.style.display = "block";
+            setTimeout(() => { infoMsg.style.display = "none"; }, 3000);
+          }
+        })
+        .catch(() => {
+          infoMsg.textContent = "Brak połączenia z serwerem.";
+          infoMsg.style.display = "block";
+          setTimeout(() => { infoMsg.style.display = "none"; }, 3000);
+        });
     }
 
     function login() {
       const nick = document.getElementById("nick").value.trim();
       const password = document.getElementById("password").value;
-      const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
 
-      if (!savedProfile || savedProfile.nick !== nick || savedProfile.password !== password) {
-        showInfoMsg("wrong");
+      if (!nick || !password) {
+        showInfoMsg("empty");
         return;
       }
 
-      window.location.href = "calendar.html";
+      fetch("http://localhost:3001/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ login: nick, password })
+      })
+        .then(async res => {
+          if (res.status === 200) {
+            window.location.href = "profil.html";
+          } else {
+            showInfoMsg("wrong");
+          }
+        })
+        .catch(() => {
+          infoMsg.textContent = "Brak połączenia z serwerem.";
+          infoMsg.style.display = "block";
+          setTimeout(() => { infoMsg.style.display = "none"; }, 3000);
+        });
     }
 
     function goToCalendar() {
