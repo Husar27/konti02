@@ -282,6 +282,7 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
       })
         .then(async res => {
           if (res.status === 201) {
+            sessionStorage.setItem("login", nick);
             showInfoMsg("registered");
             setTimeout(() => { window.location.href = "profil.html"; }, 1200);
           } else if (res.status === 409) {
@@ -317,6 +318,7 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
       })
         .then(async res => {
           if (res.status === 200) {
+            sessionStorage.setItem("login", nick);
             window.location.href = "profil.html";
           } else {
             showInfoMsg("wrong");

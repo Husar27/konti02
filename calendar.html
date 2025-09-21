@@ -711,6 +711,10 @@
       legendItems[3].lastChild.textContent = legendTexts.holiday;
     }
 
+    // Sprawdź czy użytkownik jest zalogowany
+    if (!sessionStorage.getItem("login")) {
+      window.location.href = "index.html";
+    }
     // Inicjalizacja
     renderCalendar(currentDate);
     updateLegend();
