@@ -266,6 +266,7 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
     }
 
     function register() {
+
       const nick = document.getElementById("nick").value.trim();
       const password = document.getElementById("password").value;
       const language = document.getElementById("language").value;
@@ -275,7 +276,11 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
         return;
       }
 
-  fetch("register.php", {
+      // Zapamiętaj język profilu na stałe
+      localStorage.setItem("userLanguage", language);
+      sessionStorage.setItem("userLanguage", language);
+
+      fetch("register.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ login: nick, password })

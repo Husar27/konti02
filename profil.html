@@ -295,28 +295,22 @@ hasło</button>
     });
 
     window.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("userTheme") ||
-"light";
+      const savedTheme = localStorage.getItem("userTheme") || "light";
       html.setAttribute("data-theme", savedTheme);
       themeSwitch.checked = savedTheme === "dark";
 
-      const lang = localStorage.getItem("userLanguage") ||
-"pl";
+      // Pobierz język z localStorage lub sessionStorage, domyślnie pl
+      let lang = localStorage.getItem("userLanguage") || sessionStorage.getItem("userLanguage") || "pl";
       document.getElementById("languageSelect").value = lang;
       applyLanguage(lang);
 
-      const vacation =
-JSON.parse(localStorage.getItem("userVacation"));
+      const vacation = JSON.parse(localStorage.getItem("userVacation"));
       if (vacation) {
-        document.getElementById("vacationInfo").textContent =
-`Twój urlop: ${vacation.start} → ${vacation.end}`;
-       
-document.getElementById("cancelVacationBtn").style.display =
-"inline-block";
+        document.getElementById("vacationInfo").textContent = `Twój urlop: ${vacation.start} → ${vacation.end}`;
+        document.getElementById("cancelVacationBtn").style.display = "inline-block";
       }
 
-      const birthdays =
-JSON.parse(localStorage.getItem("userBirthdays")) || [];
+      const birthdays = JSON.parse(localStorage.getItem("userBirthdays")) || [];
       updateBirthdayList(birthdays);
     });
 
