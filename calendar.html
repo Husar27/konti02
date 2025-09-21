@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kalendarz pracy Mariusza</title>
   <style>
+    .dot.gray {
+      background: #e0e0e0 !important;
+      color: #888 !important;
+      border: 1.5px solid #bbb !important;
+      cursor: not-allowed !important;
+      opacity: 0.7 !important;
+    }
     .color-box {
       width: 22px;
       height: 22px;
@@ -336,6 +343,11 @@
     let workShift = null; // 'zmianaA', 'zmianaB', 'zmianaC' lub null
 
     function setWorkShift(shift) {
+      // Wyszarz system 4-zmianowy jeśli wybrano zmianę
+      ["dotA","dotB","dotC","dotD"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.add("gray");
+      });
       workShift = shift;
       // podświetlanie aktywnej kropki
       ["zmianaA","zmianaB","zmianaC"].forEach(id => {
@@ -637,6 +649,11 @@
       ["zmianaA","zmianaB","zmianaC"].forEach(id => {
         const btn = document.getElementById(id);
         if (btn) btn.classList.remove("active", "inactive");
+      });
+      // Przywróć kolory systemu 4-zmianowego
+      ["dotA","dotB","dotC","dotD"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.remove("gray");
       });
       const dots = {
         default: document.getElementById("dotD"),
