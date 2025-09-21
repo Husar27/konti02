@@ -275,7 +275,7 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
         return;
       }
 
-      fetch("http://localhost:3001/register", {
+      fetch("php-backend/register.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ login: nick, password })
@@ -310,7 +310,7 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
         return;
       }
 
-      fetch("http://localhost:3001/login", {
+      fetch("php-backend/login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ login: nick, password })
