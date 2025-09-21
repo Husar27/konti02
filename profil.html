@@ -193,6 +193,15 @@ initial-scale=1.0" />
             </header>
 
     <section class="profile-form">
+                  <button id="toggleShiftPanel">Wybierz system zmian</button>
+                  <div id="shiftPanel" class="panel">
+                        <label id="labelShiftSystem">System zmian:</label>
+                        <select id="shiftSystemSelect">
+                              <option value="4">4-zmianowy</option>
+                              <option value="3">3-zmianowy</option>
+                        </select>
+                        <button id="saveShiftSystemBtn">Zapisz system</button>
+                  </div>
       <button id="toggleLanguagePanel">Zmień
 język</button>
       <div id="languagePanel" class="panel">
@@ -337,6 +346,22 @@ document.getElementById("toggleBirthdayPanel").addEventListener("click",
    
 document.getElementById("togglePasswordPanel").addEventListener("click",
 () => togglePanel("passwordPanel"));
+
+document.getElementById("toggleShiftPanel").addEventListener("click", () => togglePanel("shiftPanel"));
+
+document.getElementById("saveShiftSystemBtn").addEventListener("click", () => {
+      const system = document.getElementById("shiftSystemSelect").value;
+      localStorage.setItem("userShiftSystem", system);
+      sessionStorage.setItem("userShiftSystem", system);
+      alert("System zmian zapisany.");
+      document.getElementById("shiftPanel").style.display = "none";
+});
+
+// Ustaw domyślny wybór na podstawie zapisanego wyboru
+window.addEventListener("DOMContentLoaded", () => {
+      const savedSystem = sessionStorage.getItem("userShiftSystem") || localStorage.getItem("userShiftSystem") || "4";
+      document.getElementById("shiftSystemSelect").value = savedSystem;
+});
 
    
 document.getElementById("saveEmailBtn").addEventListener("click",
