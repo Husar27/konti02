@@ -195,12 +195,16 @@ initial-scale=1.0" />
     <section class="profile-form">
                   <button id="toggleShiftPanel">Wybierz system zmian</button>
                   <div id="shiftPanel" class="panel">
-                        <label id="labelShiftSystem">System zmian:</label>
-                        <select id="shiftSystemSelect">
-                              <option value="4">4-zmianowy</option>
-                              <option value="3">3-zmianowy</option>
-                        </select>
-                        <button id="saveShiftSystemBtn">Zapisz system</button>
+                                          <label id="labelShiftSystem">System zmian:</label>
+                                          <select id="shiftSystemSelect">
+                                                <option value="4">4-zmianowy</option>
+                                                <option value="3">3-zmianowy</option>
+                                          </select>
+                                          <div id="shiftTypePanel" style="margin-top:10px;">
+                                                <label id="labelShiftType">Wybierz zmianę:</label>
+                                                <select id="shiftTypeSelect"></select>
+                                          </div>
+                                          <button id="saveShiftSystemBtn">Zapisz system</button>
                   </div>
       <button id="toggleLanguagePanel">Zmień
 język</button>
@@ -349,18 +353,48 @@ document.getElementById("togglePasswordPanel").addEventListener("click",
 
 document.getElementById("toggleShiftPanel").addEventListener("click", () => togglePanel("shiftPanel"));
 
+// Dynamiczne opcje zmiany w zależności od systemu
+const shiftTypeSelect = document.getElementById("shiftTypeSelect");
+const shiftSystemSelect = document.getElementById("shiftSystemSelect");
+function updateShiftTypeOptions() {
+      const system = shiftSystemSelect.value;
+      shiftTypeSelect.innerHTML = "";
+      if (system === "4") {
+            ["A", "B", "C", "D"].forEach(val => {
+                  const opt = document.createElement("option");
+                  opt.value = val;
+                  opt.textContent = val;
+                  shiftTypeSelect.appendChild(opt);
+            });
+      } else {
+            ["A", "B", "C"].forEach(val => {
+                  const opt = document.createElement("option");
+                  opt.value = val;
+                  opt.textContent = val;
+                  shiftTypeSelect.appendChild(opt);
+            });
+      }
+}
+shiftSystemSelect.addEventListener("change", updateShiftTypeOptions);
+
 document.getElementById("saveShiftSystemBtn").addEventListener("click", () => {
-      const system = document.getElementById("shiftSystemSelect").value;
-      localStorage.setItem("userShiftSystem", system);
-      sessionStorage.setItem("userShiftSystem", system);
-      alert("System zmian zapisany.");
-      document.getElementById("shiftPanel").style.display = "none";
+            const system = shiftSystemSelect.value;
+            const shift = shiftTypeSelect.value;
+            localStorage.setItem("userShiftSystem", system);
+            sessionStorage.setItem("userShiftSystem", system);
+            localStorage.setItem("userShiftType", shift);
+            sessionStorage.setItem("userShiftType", shift);
+            alert("System zmian i zmiana zapisane.");
+            document.getElementById("shiftPanel").style.display = "none";
 });
 
 // Ustaw domyślny wybór na podstawie zapisanego wyboru
 window.addEventListener("DOMContentLoaded", () => {
-      const savedSystem = sessionStorage.getItem("userShiftSystem") || localStorage.getItem("userShiftSystem") || "4";
-      document.getElementById("shiftSystemSelect").value = savedSystem;
+            const savedSystem = sessionStorage.getItem("userShiftSystem") || localStorage.getItem("userShiftSystem") || "4";
+            shiftSystemSelect.value = savedSystem;
+            updateShiftTypeOptions();
+            const savedType = sessionStorage.getItem("userShiftType") || localStorage.getItem("userShiftType") || "A";
+            shiftTypeSelect.value = savedType;
 });
 
    
