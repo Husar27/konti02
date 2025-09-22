@@ -379,12 +379,11 @@ document.getElementById("changePasswordBtn").addEventListener("click", () => {
 
 
    
-document.getElementById("saveLanguageBtn").addEventListener("click",
-() => {
-  const lang = document.getElementById("languageSelect").value;
-  localStorage.setItem("userLanguage", lang);
-  document.getElementById("languagePanel").style.display = "none";
-  location.reload();
+document.getElementById("saveLanguageBtn").addEventListener("click", () => {
+      const lang = document.getElementById("languageSelect").value;
+      localStorage.setItem("userLanguage", lang);
+      document.getElementById("languagePanel").style.display = "none";
+      applyLanguage(lang);
 });
 
             function applyLanguage(lang) {
@@ -463,47 +462,31 @@ document.getElementById("saveLanguageBtn").addEventListener("click",
       const tr = t[lang];
       // Pobierz login z sessionStorage
       const login = sessionStorage.getItem("login") || "";
-      document.getElementById("usernameLabel").innerText = `${tr.usernameLabel} ${login}`;
-      document.getElementById("toggleEmailPanel").innerText =
-tr.toggleEmailPanel;
-      document.getElementById("toggleVacationPanel").innerText =
-tr.toggleVacationPanel;
-      document.getElementById("toggleBirthdayPanel").innerText =
-tr.toggleBirthdayPanel;
-      document.getElementById("togglePasswordPanel").innerText =
-tr.togglePasswordPanel;
-      document.getElementById("toggleLanguagePanel").innerText =
-tr.toggleLanguagePanel;
-      document.getElementById("logoutBtn").innerText =
-tr.logoutBtn;
-      document.getElementById("saveEmailBtn").innerText =
-tr.saveEmailBtn;
-      document.getElementById("saveVacationBtn").innerText =
-tr.saveVacationBtn;
-      document.getElementById("cancelVacationBtn").innerText =
-tr.cancelVacationBtn;
-      document.getElementById("addBirthdayBtn").innerText =
-tr.addBirthdayBtn;
-      document.getElementById("changePasswordBtn").innerText =
-tr.changePasswordBtn;
-      document.getElementById("saveLanguageBtn").innerText =
-tr.saveLanguageBtn;
-      document.getElementById("labelLanguage").innerText =
-tr.labelLanguage;
-      document.getElementById("labelEmail").innerText =
-tr.labelEmail;
-      document.getElementById("labelVacationStart").innerText =
-tr.labelVacationStart;
-      document.getElementById("labelVacationEnd").innerText =
-tr.labelVacationEnd;
-      document.getElementById("labelFriendName").innerText =
-tr.labelFriendName;
-      document.getElementById("labelFriendBirthday").innerText =
-tr.labelFriendBirthday;
-      document.getElementById("labelOldPassword").innerText =
-tr.labelOldPassword;
-      document.getElementById("labelNewPassword").innerText =
-tr.labelNewPassword;
+      const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = text;
+      };
+      setText("usernameLabel", `${tr.usernameLabel} ${login}`);
+      setText("toggleEmailPanel", tr.toggleEmailPanel);
+      setText("toggleVacationPanel", tr.toggleVacationPanel);
+      setText("toggleBirthdayPanel", tr.toggleBirthdayPanel);
+      setText("togglePasswordPanel", tr.togglePasswordPanel);
+      setText("toggleLanguagePanel", tr.toggleLanguagePanel);
+      setText("logoutBtn", tr.logoutBtn);
+      setText("saveEmailBtn", tr.saveEmailBtn);
+      setText("saveVacationBtn", tr.saveVacationBtn);
+      setText("cancelVacationBtn", tr.cancelVacationBtn);
+      setText("addBirthdayBtn", tr.addBirthdayBtn);
+      setText("changePasswordBtn", tr.changePasswordBtn);
+      setText("saveLanguageBtn", tr.saveLanguageBtn);
+      setText("labelLanguage", tr.labelLanguage);
+      setText("labelEmail", tr.labelEmail);
+      setText("labelVacationStart", tr.labelVacationStart);
+      setText("labelVacationEnd", tr.labelVacationEnd);
+      setText("labelFriendName", tr.labelFriendName);
+      setText("labelFriendBirthday", tr.labelFriendBirthday);
+      setText("labelOldPassword", tr.labelOldPassword);
+      setText("labelNewPassword", tr.labelNewPassword);
     }
   </script>
 </body>
