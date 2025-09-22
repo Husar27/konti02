@@ -169,17 +169,7 @@ initial-scale=1.0" />
                                           </div>
                                           <button id="saveShiftSystemBtn">Zapisz system</button>
                   </div>
-      <button id="toggleLanguagePanel">Zmień
-język</button>
-      <div id="languagePanel" class="panel">
-      <label id="labelLanguage" for="languageSelect">Wybierz język:</label>
-      <select id="languageSelect">
-        <option value="pl">Polski 🇵🇱</option>
-        <option value="de">Deutsch 🇩🇪</option>
-        <option value="ru">Русский 🇷🇺</option>
-      </select>
-      <button id="saveLanguageBtn">Zapisz język</button>
-      </div>
+      <button id="changeLanguageBtn">Zmień język</button>
 
       <button id="toggleVacationPanel">Zarządzaj urlopem</button>
       <div id="vacationPanel" class="panel">
@@ -233,7 +223,7 @@ język</button>
             });
                                     window.addEventListener("DOMContentLoaded", () => {
                                           // Język
-                                          let lang = localStorage.getItem("userLanguage") || "pl";
+                                          let lang = localStorage.getItem("userLanguage") || "de";
                                           document.getElementById("languageSelect").value = lang;
                                           applyLanguage(lang);
 
@@ -363,7 +353,6 @@ JSON.stringify(birthdays));
                   });
             }
 
-// Obsługa zmiany hasła
 document.getElementById("changePasswordBtn").addEventListener("click", () => {
       const oldPass = document.getElementById("oldPassword").value;
       const newPass = document.getElementById("newPassword").value;
@@ -375,6 +364,17 @@ document.getElementById("changePasswordBtn").addEventListener("click", () => {
       document.getElementById("passwordPanel").style.display = "none";
 });
 
+// Obsługa cyklicznej zmiany języka
+document.getElementById("changeLanguageBtn").addEventListener("click", () => {
+      const langs = ["de", "pl", "ru"];
+      let current = localStorage.getItem("userLanguage") || "de";
+      let idx = langs.indexOf(current);
+      let next = langs[(idx + 1) % langs.length];
+      localStorage.setItem("userLanguage", next);
+      sessionStorage.setItem("userLanguage", next);
+      applyLanguage(next);
+});
+
 // Inicjalizacja języka przy starcie
 
 
@@ -382,6 +382,7 @@ document.getElementById("changePasswordBtn").addEventListener("click", () => {
 document.getElementById("saveLanguageBtn").addEventListener("click", () => {
       const lang = document.getElementById("languageSelect").value;
       localStorage.setItem("userLanguage", lang);
+      sessionStorage.setItem("userLanguage", lang);
       document.getElementById("languagePanel").style.display = "none";
       applyLanguage(lang);
 });
@@ -478,8 +479,7 @@ document.getElementById("saveLanguageBtn").addEventListener("click", () => {
       setText("cancelVacationBtn", tr.cancelVacationBtn);
       setText("addBirthdayBtn", tr.addBirthdayBtn);
       setText("changePasswordBtn", tr.changePasswordBtn);
-      setText("saveLanguageBtn", tr.saveLanguageBtn);
-      setText("labelLanguage", tr.labelLanguage);
+      // usunięto obsługę nieistniejących już elementów wyboru języka
       setText("labelEmail", tr.labelEmail);
       setText("labelVacationStart", tr.labelVacationStart);
       setText("labelVacationEnd", tr.labelVacationEnd);

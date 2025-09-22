@@ -156,18 +156,7 @@ onclick="togglePassword()" title="Hasło
 widoczne/ukryte"></i>
     </div>
 
-    <div class="input-group">
-      <i class="fa-solid fa-language
-language-icon"></i>
-      <select id="language"
-onchange="changeLanguage()">
-        <option value="de" selected>🇩🇪
-Deutsch</option>
-        <option value="pl">🇵🇱 Polski</option>
-        <option value="ru">🇷🇺
-Русский</option>
-      </select>
-    </div>
+
 
     <button class="btn-register" id="registerBtn"
 onclick="register()">Profil erstellen</button>
@@ -178,46 +167,6 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
   </div>
 
   <script>
-    const translations = {
-      de: {
-        title: "Mariusz Kalender",
-        nick: "Benutzername",
-        password: "Passwort",
-        register: "Profil erstellen",
-        login: "Anmelden",
-        guest: "Als Gast fortfahren"
-      },
-      pl: {
-        title: "Kalendarz Mariusza",
-        nick: "Nick",
-        password: "Hasło",
-        register: "Utwórz profil",
-        login: "Zaloguj",
-        guest: "Przejdź bez logowania"
-      },
-      ru: {
-        title: "Календарь Мариуша",
-        nick: "Имя",
-        password: "Пароль",
-        register: "Создать профиль",
-        login: "Войти",
-        guest: "Продолжить без входа"
-      }
-    };
-
-    function changeLanguage() {
-  const lang = document.getElementById("language").value;
-  localStorage.setItem("selectedLanguage", lang);
-  // userLanguage zapisujemy tylko przy rejestracji lub zmianie w profilu
-  const t = translations[lang];
-  document.getElementById("titleText").textContent = t.title;
-  document.getElementById("nick").placeholder = t.nick;
-  document.getElementById("password").placeholder = t.password;
-  document.getElementById("registerBtn").textContent = t.register;
-  document.getElementById("loginBtn").textContent = t.login;
-  document.querySelector(".btn-guest").textContent = t.guest;
-    }
-
     function togglePassword() {
       const passwordInput = document.getElementById("password");
       const icon = document.querySelector(".toggle-password");
@@ -232,11 +181,7 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
       }
     }
 
-    window.onload = () => {
-  const savedLang = localStorage.getItem("selectedLanguage") || "de";
-  document.getElementById("language").value = savedLang;
-  changeLanguage();
-    };
+
 
 
     // Komunikaty w stylu calendar.html
@@ -259,8 +204,8 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
       }
     };
     function showInfoMsg(type) {
-      const lang = localStorage.getItem("userLanguage") || localStorage.getItem("selectedLanguage") || "de";
-      infoMsg.textContent = infoMessages[lang][type] || infoMessages.de[type];
+  const lang = localStorage.getItem("userLanguage") || "de";
+  infoMsg.textContent = infoMessages[lang][type] || infoMessages.de[type];
       infoMsg.style.display = "block";
       setTimeout(() => { infoMsg.style.display = "none"; }, 3000);
     }
@@ -269,16 +214,16 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
 
       const nick = document.getElementById("nick").value.trim();
       const password = document.getElementById("password").value;
-      const language = document.getElementById("language").value;
+
 
       if (!nick || !password) {
         showInfoMsg("empty");
         return;
       }
 
-      // Zapamiętaj język profilu na stałe
-      localStorage.setItem("userLanguage", language);
-      sessionStorage.setItem("userLanguage", language);
+  // Zawsze ustawiaj język domyślny na niemiecki dla nowego użytkownika
+  localStorage.setItem("userLanguage", "de");
+  sessionStorage.setItem("userLanguage", "de");
 
       fetch("register.php", {
         method: "POST",
