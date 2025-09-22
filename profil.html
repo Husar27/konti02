@@ -378,13 +378,6 @@ document.getElementById("changeLanguageBtn").addEventListener("click", () => {
 
 
    
-document.getElementById("saveLanguageBtn").addEventListener("click", () => {
-      const lang = document.getElementById("languageSelect").value;
-      localStorage.setItem("userLanguage", lang);
-      sessionStorage.setItem("userLanguage", lang);
-      document.getElementById("languagePanel").style.display = "none";
-      applyLanguage(lang);
-});
 
             function applyLanguage(lang) {
                   const t = {
