@@ -172,62 +172,43 @@ initial-scale=1.0" />
       <button id="toggleLanguagePanel">Zmień
 język</button>
       <div id="languagePanel" class="panel">
-        <label id="labelLanguage"
-for="languageSelect">Wybierz język:</label>
-        <select id="languageSelect">
-          <option value="pl">Polski 🇵🇱</option>
-          <option value="de">Deutsch
-🇩🇪</option>
-          <option value="ru">Русский
-🇷🇺</option>
-        </select>
-        <button id="saveLanguageBtn">Zapisz
-język</button>
+      <label id="labelLanguage" for="languageSelect">Wybierz język:</label>
+      <select id="languageSelect">
+        <option value="pl">Polski 🇵🇱</option>
+        <option value="de">Deutsch 🇩🇪</option>
+        <option value="ru">Русский 🇷🇺</option>
+      </select>
+      <button id="saveLanguageBtn">Zapisz język</button>
+      </div>
 
-
-      <button id="toggleVacationPanel">Zarządzaj
-urlopem</button>
+      <button id="toggleVacationPanel">Zarządzaj urlopem</button>
       <div id="vacationPanel" class="panel">
-        <label id="labelVacationStart">Od:</label>
-        <input type="date" id="vacationStart" />
-        <label id="labelVacationEnd">Do:</label>
-        <input type="date" id="vacationEnd" />
-        <button id="saveVacationBtn">Zapisz
-urlop</button>
-        <button id="cancelVacationBtn"
-style="display:none;">Anuluj urlop</button>
-        <div class="vacation-info"
-id="vacationInfo"></div>
+      <label id="labelVacationStart">Od:</label>
+      <input type="date" id="vacationStart" />
+      <label id="labelVacationEnd">Do:</label>
+      <input type="date" id="vacationEnd" />
+      <button id="saveVacationBtn">Zapisz urlop</button>
+      <button id="cancelVacationBtn" style="display:none;">Anuluj urlop</button>
+      <div class="vacation-info" id="vacationInfo"></div>
       </div>
 
-      <button id="toggleBirthdayPanel">Zarządzaj
-urodzinami</button>
+      <button id="toggleBirthdayPanel">Zarządzaj urodzinami</button>
       <div id="birthdayPanel" class="panel">
-        <label id="labelFriendName">Imię:</label>
-        <input type="text" id="friendName"
-placeholder="Imię znajomego" />
-        <label id="labelFriendBirthday">Data
-urodzin:</label>
-        <input type="date" id="friendBirthday" />
-        <button id="addBirthdayBtn">Dodaj
-urodziny</button>
-        <div class="birthday-list"
-id="birthdayList"></div>
+      <label id="labelFriendName">Imię:</label>
+      <input type="text" id="friendName" placeholder="Imię znajomego" />
+      <label id="labelFriendBirthday">Data urodzin:</label>
+      <input type="date" id="friendBirthday" />
+      <button id="addBirthdayBtn">Dodaj urodziny</button>
+      <div class="birthday-list" id="birthdayList"></div>
       </div>
 
-      <button id="togglePasswordPanel">Zmień
-hasło</button>
+      <button id="togglePasswordPanel">Zmień hasło</button>
       <div id="passwordPanel" class="panel">
-        <label id="labelOldPassword">Stare
-hasło:</label>
-        <input type="password" id="oldPassword"
-/>
-        <label id="labelNewPassword">Nowe
-hasło:</label>
-        <input type="password" id="newPassword"
-/>
-        <button id="changePasswordBtn">Zapisz nowe
-hasło</button>
+      <label id="labelOldPassword">Stare hasło:</label>
+      <input type="password" id="oldPassword" />
+      <label id="labelNewPassword">Nowe hasło:</label>
+      <input type="password" id="newPassword" />
+      <button id="changePasswordBtn">Zapisz nowe hasło</button>
       </div>
 
       <button id="logoutBtn">Wyloguj się</button>
