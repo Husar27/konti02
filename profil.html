@@ -231,22 +231,30 @@ język</button>
                   sessionStorage.removeItem("guest");
                   window.location.href = "index.html";
             });
-            window.addEventListener("DOMContentLoaded", () => {
+                                    window.addEventListener("DOMContentLoaded", () => {
+                                          // Język
+                                          let lang = localStorage.getItem("userLanguage") || "pl";
+                                          document.getElementById("languageSelect").value = lang;
+                                          applyLanguage(lang);
 
-      // Pobierz język z localStorage lub sessionStorage, domyślnie pl
-      let lang = localStorage.getItem("userLanguage") || sessionStorage.getItem("userLanguage") || "pl";
-      document.getElementById("languageSelect").value = lang;
-      applyLanguage(lang);
+                                          // System zmian
+                                          const savedSystem = localStorage.getItem("userShiftSystem") || "4";
+                                          shiftSystemSelect.value = savedSystem;
+                                          updateShiftTypeOptions();
+                                          const savedType = localStorage.getItem("userShiftType") || "A";
+                                          shiftTypeSelect.value = savedType;
 
-      const vacation = JSON.parse(localStorage.getItem("userVacation"));
-      if (vacation) {
-        document.getElementById("vacationInfo").textContent = `Twój urlop: ${vacation.start} → ${vacation.end}`;
-        document.getElementById("cancelVacationBtn").style.display = "inline-block";
-      }
+                                          // Urlop
+                                          const vacation = JSON.parse(localStorage.getItem("userVacation"));
+                                          if (vacation) {
+                                                document.getElementById("vacationInfo").textContent = `Twój urlop: ${vacation.start} → ${vacation.end}`;
+                                                document.getElementById("cancelVacationBtn").style.display = "inline-block";
+                                          }
 
-      const birthdays = JSON.parse(localStorage.getItem("userBirthdays")) || [];
-      updateBirthdayList(birthdays);
-    });
+                                          // Urodziny
+                                          const birthdays = JSON.parse(localStorage.getItem("userBirthdays")) || [];
+                                          updateBirthdayList(birthdays);
+                                    });
 function togglePanel(id) {
   document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
   const panel = document.getElementById(id);
@@ -288,15 +296,7 @@ document.getElementById("saveShiftSystemBtn").addEventListener("click", () => {
 });
 
 // Ustaw domyślny wybór na podstawie zapisanego wyboru
-window.addEventListener("DOMContentLoaded", () => {
-      const savedSystem = localStorage.getItem("userShiftSystem") || "4";
-      shiftSystemSelect.value = savedSystem;
-      updateShiftTypeOptions();
-      const savedType = localStorage.getItem("userShiftType") || "A";
-      shiftTypeSelect.value = savedType;
-});
-
-   
+// ...usunięto powielony DOMContentLoaded...
 document.getElementById("saveEmailBtn").addEventListener("click",
 () => {
       const email = document.getElementById("email").value;
@@ -376,11 +376,7 @@ document.getElementById("changePasswordBtn").addEventListener("click", () => {
 });
 
 // Inicjalizacja języka przy starcie
-window.addEventListener("DOMContentLoaded", () => {
-      let lang = localStorage.getItem("userLanguage") || "pl";
-      document.getElementById("languageSelect").value = lang;
-      applyLanguage(lang);
-});
+
 
    
 document.getElementById("saveLanguageBtn").addEventListener("click",
