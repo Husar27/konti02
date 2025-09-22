@@ -472,7 +472,7 @@
       ru: "Пожалуйста, войдите, чтобы открыть профиль."
     };
     function getCurrentLang() {
-      return localStorage.getItem("userLanguage") || localStorage.getItem("selectedLanguage") || "pl";
+  return localStorage.getItem("userLanguage") || "pl";
     }
     function isGuest() {
   return !sessionStorage.getItem("login");
@@ -498,7 +498,7 @@
     const calendarBody = document.getElementById("calendarBody");
     let currentDate = new Date();
   // Pobierz język z localStorage lub sessionStorage, domyślnie pl
-  let currentLang = localStorage.getItem("userLanguage") || sessionStorage.getItem("userLanguage") || localStorage.getItem("selectedLanguage") || "pl";
+  let currentLang = localStorage.getItem("userLanguage") || "pl";
     let shiftSystem = "default";
 
     const systemCycles = {
