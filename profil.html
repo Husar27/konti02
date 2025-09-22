@@ -360,11 +360,11 @@ JSON.stringify(birthdays));
         div.textContent = `${entry.name} – ${entry.date}`;
         list.appendChild(div);
       });
-    }
 
-   
-document.getElementById("changePasswordBtn").addEventListener("click",
-() => {
+      // Pobierz język tylko z localStorage, domyślnie pl
+      let lang = localStorage.getItem("userLanguage") || "pl";
+      document.getElementById("languageSelect").value = lang;
+      applyLanguage(lang);
       const oldPass = document.getElementById("oldPassword").value;
       const newPass = document.getElementById("newPassword").value;
       if (!oldPass || !newPass) return alert("Wprowadź oba hasła.");
