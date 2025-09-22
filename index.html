@@ -324,6 +324,7 @@ onclick="goToCalendar()">Als Gast fortfahren</button>
         .then(async res => {
           if (res.status === 200) {
             sessionStorage.setItem("login", nick);
+            // NIE nadpisuj userLanguage w localStorage!
             // Ustaw userLanguage w sessionStorage na podstawie localStorage (jeśli istnieje)
             const userLang = localStorage.getItem("userLanguage");
             if (userLang) sessionStorage.setItem("userLanguage", userLang);
