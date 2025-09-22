@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" data-theme="light">
+<html lang="pl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,
@@ -47,22 +47,14 @@ initial-scale=1.0" />
                                     height: 28px;
                               }
                         }
-    :root {
-      --bg-light: #f0f0f0;
-      --text-light: #333;
-      --bg-dark: #1e1e1e;
-      --text-dark: #f0f0f0;
-    }
-
-    [data-theme="light"] {
-      background-color: var(--bg-light);
-      color: var(--text-light);
-    }
-
-    [data-theme="dark"] {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
+            :root {
+                  --bg-light: #f0f0f0;
+                  --text-light: #333;
+            }
+            body {
+                  background-color: var(--bg-light);
+                  color: var(--text-light);
+            }
 
     body {
       font-family: Arial, sans-serif;
@@ -87,31 +79,7 @@ initial-scale=1.0" />
       margin-bottom: 2rem;
     }
 
-    .theme-toggle .switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 30px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      background-color: #ccc;
-      border-radius: 30px;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      font-size: 18px;
-    }
+            /* usunięto dark mode */
 
     .profile-form button {
       display: block;
@@ -184,12 +152,7 @@ initial-scale=1.0" />
       <div class="profile-container">
             <header>
                   <h2 id="usernameLabel">Witaj, <span id="username">Mariusz</span></h2>
-                  <div class="theme-toggle">
-                        <label class="switch">
-                              <input type="checkbox" id="themeSwitch"/>
-                              <span class="slider">🌞<span class="moon">🌙</span></span>
-                        </label>
-                  </div>
+
             </header>
 
     <section class="profile-form">
@@ -289,7 +252,6 @@ hasło</button>
             // Wylogowanie: czyści dane użytkownika i przekierowuje do index.html
             document.getElementById("logoutBtn").addEventListener("click", function() {
                   // Usuń dane użytkownika z localStorage i sessionStorage
-                  localStorage.removeItem("userTheme");
                   localStorage.removeItem("userLanguage");
                   localStorage.removeItem("userEmail");
                   localStorage.removeItem("userVacation");
@@ -298,21 +260,7 @@ hasło</button>
                   sessionStorage.removeItem("guest");
                   window.location.href = "index.html";
             });
-    const html = document.documentElement;
-    const themeSwitch = document.getElementById("themeSwitch");
-
-    themeSwitch.addEventListener("change", () => {
-      const theme = themeSwitch.checked ? "dark" : "light";
-      html.setAttribute("data-theme", theme);
-      localStorage.setItem("userTheme", theme);
-      sessionStorage.setItem("userTheme", theme);
-    });
-
-    window.addEventListener("DOMContentLoaded", () => {
-      // Pobierz motyw z localStorage/sessionStorage (dla zalogowanego)
-      let savedTheme = sessionStorage.getItem("userTheme") || localStorage.getItem("userTheme") || "light";
-      html.setAttribute("data-theme", savedTheme);
-      themeSwitch.checked = savedTheme === "dark";
+            window.addEventListener("DOMContentLoaded", () => {
 
       // Pobierz język z localStorage lub sessionStorage, domyślnie pl
       let lang = localStorage.getItem("userLanguage") || sessionStorage.getItem("userLanguage") || "pl";
