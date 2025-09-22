@@ -351,28 +351,36 @@ JSON.stringify(birthdays));
       alert("Urodziny dodane.");
     });
 
-    function updateBirthdayList(birthdays) {
-      const list = document.getElementById("birthdayList");
-      list.innerHTML = "";
-      birthdays.forEach((entry) => {
-        const div = document.createElement("div");
-        div.className = "birthday-entry";
-        div.textContent = `${entry.name} – ${entry.date}`;
-        list.appendChild(div);
-      });
 
-      // Pobierz język tylko z localStorage, domyślnie pl
-      let lang = localStorage.getItem("userLanguage") || "pl";
-      document.getElementById("languageSelect").value = lang;
-      applyLanguage(lang);
+            function updateBirthdayList(birthdays) {
+                  const list = document.getElementById("birthdayList");
+                  list.innerHTML = "";
+                  birthdays.forEach((entry) => {
+                        const div = document.createElement("div");
+                        div.className = "birthday-entry";
+                        div.textContent = `${entry.name} – ${entry.date}`;
+                        list.appendChild(div);
+                  });
+            }
+
+// Obsługa zmiany hasła
+document.getElementById("changePasswordBtn").addEventListener("click", () => {
       const oldPass = document.getElementById("oldPassword").value;
       const newPass = document.getElementById("newPassword").value;
       if (!oldPass || !newPass) return alert("Wprowadź oba hasła.");
+      // Tu powinna być logika sprawdzania i zapisu hasła
       alert("Hasło zostało zmienione.");
       document.getElementById("oldPassword").value = "";
       document.getElementById("newPassword").value = "";
       document.getElementById("passwordPanel").style.display = "none";
-    });
+});
+
+// Inicjalizacja języka przy starcie
+window.addEventListener("DOMContentLoaded", () => {
+      let lang = localStorage.getItem("userLanguage") || "pl";
+      document.getElementById("languageSelect").value = lang;
+      applyLanguage(lang);
+});
 
    
 document.getElementById("saveLanguageBtn").addEventListener("click",
