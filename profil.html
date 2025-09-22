@@ -377,14 +377,11 @@ document.getElementById("changePasswordBtn").addEventListener("click",
    
 document.getElementById("saveLanguageBtn").addEventListener("click",
 () => {
-      const lang =
-document.getElementById("languageSelect").value;
-      localStorage.setItem("userLanguage", lang);
-      applyLanguage(lang);
-      alert("Język zapisany.");
-      document.getElementById("languagePanel").style.display =
-"none";
-    });
+  const lang = document.getElementById("languageSelect").value;
+  localStorage.setItem("userLanguage", lang);
+  document.getElementById("languagePanel").style.display = "none";
+  location.reload();
+});
 
             function applyLanguage(lang) {
                   const t = {
