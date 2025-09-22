@@ -498,7 +498,7 @@
     const calendarBody = document.getElementById("calendarBody");
     let currentDate = new Date();
   // Pobierz język z localStorage lub sessionStorage, domyślnie pl
-  let currentLang = localStorage.getItem("userLanguage") || "pl";
+  // let currentLang = localStorage.getItem("userLanguage") || "pl";
     let shiftSystem = "default";
 
     const systemCycles = {
@@ -609,7 +609,8 @@
       const today = new Date();
       const holidaysNRW = getHolidaysNRW(year);
 
-      monthYear.textContent = date.toLocaleString(translations[currentLang].locale, {
+  const langMonth = getCurrentLang();
+  monthYear.textContent = date.toLocaleString(translations[langMonth].locale, {
         month: "long",
         year: "numeric"
       });
@@ -621,7 +622,8 @@
       calendarBody.innerHTML = "";
 
       const headers = document.querySelectorAll("thead th");
-      translations[currentLang].days.forEach((day, i) => {
+  const langDays = getCurrentLang();
+  translations[langDays].days.forEach((day, i) => {
         headers[i].textContent = day;
       });
 
@@ -646,17 +648,21 @@
 
         if (holidaysNRW.includes(dateStr)) {
           cell.style.backgroundColor = "#ffe0b2";
-          cell.title = translations[currentLang].legend.holiday;
+          const langHoliday = getCurrentLang();
+          cell.title = translations[langHoliday].legend.holiday;
         } else {
           if (shiftType === "Rano") {
             cell.style.backgroundColor = "#bbdefb";
-            cell.title = translations[currentLang].legend.morning;
+            const langMorning = getCurrentLang();
+            cell.title = translations[langMorning].legend.morning;
           } else if (shiftType === "Południe") {
             cell.style.backgroundColor = "#c8e6c9";
-            cell.title = translations[currentLang].legend.afternoon;
+            const langAfternoon = getCurrentLang();
+            cell.title = translations[langAfternoon].legend.afternoon;
           } else if (shiftType === "Nocka") {
             cell.style.backgroundColor = "#ffcdd2";
-            cell.title = translations[currentLang].legend.night;
+            const langNight = getCurrentLang();
+            cell.title = translations[langNight].legend.night;
           }
         }
 
@@ -715,19 +721,19 @@
     }
 
     function setLanguage(lang) {
-      currentLang = lang;
-      renderCalendar(currentDate);
-      updateLegend();
+  renderCalendar(currentDate);
+  updateLegend();
     }
 
     function updateLegend() {
-      const legendItems = document.querySelectorAll(".legend-item");
-      const legendTexts = translations[currentLang].legend;
+  const legendItems = document.querySelectorAll(".legend-item");
+  const lang = getCurrentLang();
+  const legendTexts = translations[lang].legend;
 
-      legendItems[0].lastChild.textContent = legendTexts.morning;
-      legendItems[1].lastChild.textContent = legendTexts.afternoon;
-      legendItems[2].lastChild.textContent = legendTexts.night;
-      legendItems[3].lastChild.textContent = legendTexts.holiday;
+  legendItems[0].lastChild.textContent = legendTexts.morning;
+  legendItems[1].lastChild.textContent = legendTexts.afternoon;
+  legendItems[2].lastChild.textContent = legendTexts.night;
+  legendItems[3].lastChild.textContent = legendTexts.holiday;
     }
 
     // Sprawdź czy użytkownik jest zalogowany lub gość
